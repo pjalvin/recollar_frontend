@@ -20,32 +20,32 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
       width: size.width,
       height: size.height,
       child:TextField(
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: textType,
-          decoration: InputDecoration(
-            prefixIcon: Icon(icon,color:colorText) ,
-            fillColor: colorBg,
+            controller: controller,
+            obscureText: obscureText,
+            keyboardType: textType,
+            decoration: InputDecoration(
+              prefixIcon: Icon(icon,color:colorText) ,
+              fillColor: colorBg,
 
-            filled: true,
-            focusColor: colorBg,
-            contentPadding: const EdgeInsets.only(left: 0,right: 10),
-              focusedBorder: OutlineInputBorder(
+              filled: true,
+              focusColor: colorBg,
+              contentPadding: const EdgeInsets.only(left: 0,right: 10),
+                focusedBorder: OutlineInputBorder(
 
-                borderSide: BorderSide(color: colorBorder, width: 2),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: colorBorder.withOpacity(0.7), width: 1),
-              ),
-              hintText: hintText,
-              hintStyle: TextStyle(color: colorText.withOpacity(0.5)),
-              border: OutlineInputBorder(borderSide: BorderSide(color: colorBorder,width: 1))),
-          style: TextStyle(color: colorText),
-          cursorColor: colorText,
+                  borderSide: BorderSide(color: colorBorder, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorBorder.withOpacity(0.7), width: 1),
+                ),
+                hintText: hintText,
+                hintStyle: TextStyle(color: colorText.withOpacity(0.5)),
+                border: OutlineInputBorder(borderSide: BorderSide(color: colorBorder,width: 1))),
+            style: TextStyle(color: colorText),
+            cursorColor: colorText,
 
 
 
-        ),
+          ),
     );
   }
 }

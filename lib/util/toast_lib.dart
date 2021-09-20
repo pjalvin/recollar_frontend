@@ -1,0 +1,17 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:recollar_frontend/util/configuration.dart';
+
+class ToastLib{
+  static void error(String msg){
+
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 1,
+        backgroundColor: colorBlack.withOpacity(0.5),
+        textColor: colorWhite,
+        fontSize: 14
+    );
+}
+}

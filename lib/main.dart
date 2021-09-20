@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:recollar_frontend/configuration.dart';
-import 'package:recollar_frontend/screens/login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:recollar_frontend/screensMain/initial_main.dart';
+import 'package:recollar_frontend/util/configuration.dart';
+import 'package:recollar_frontend/screens/login/login.dart';
 
-void main() {
+Future main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -18,7 +23,7 @@ class MyApp extends StatelessWidget {
           cursorColor: color1,
         ),
       ),
-      home: Login(),
+      home: const InitialMain(),
     );
   }
 }

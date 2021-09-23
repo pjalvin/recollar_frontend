@@ -1,3 +1,4 @@
+import 'package:recollar_frontend/models/user.dart';
 import 'package:recollar_frontend/models/user_auth.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -6,9 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginRepository{
 
   Future login(UserAuth userAuth) async{
-    if(userAuth.verifyData()){
-      String url="${dotenv.env['API_URL']}/login";
-      print(url);
+    userAuth.verifyData();
       var res=await http.post(
           Uri.http(dotenv.env['API_URL'] ?? "", "/login"),
           body: userAuth.toJson(),
@@ -25,9 +24,21 @@ class LoginRepository{
       var body=jsonDecode(res.body);
       SharedPreferences prefs=await SharedPreferences.getInstance();
       await prefs.setString("token", body["access_token"] ?? "");
+
+  }
+  Future signup(User user) async{
+    user.verifyData();
+    var res=await http.post(
+        Uri.http(dotenv.env['API_URL'] ?? "", "/signup"),
+        body: jsonEncode(user.toJson()),
+        headers: {
+          "Content-Type": "application/json",
+        },
+    );
+    if(res.statusCode!=200){
+      print(res.body);
+      throw "No se pudo registrar al usuario";
     }
-    else{
-      throw "Verifique los datos";
-    }
+
   }
 }

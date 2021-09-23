@@ -10,7 +10,7 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
   Color colorText;
   String hintText;
   bool obscureText;
-  IconData icon;
+  IconData ? icon;
   TextInputType textType;
   TextFieldPrimaryCPNT({Key? key,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
 
@@ -24,12 +24,12 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
             obscureText: obscureText,
             keyboardType: textType,
             decoration: InputDecoration(
-              prefixIcon: Icon(icon,color:colorText) ,
+              prefixIcon: icon!=null?Icon(icon,color:colorText):null ,
               fillColor: colorBg,
 
               filled: true,
               focusColor: colorBg,
-              contentPadding: const EdgeInsets.only(left: 0,right: 10),
+              contentPadding: const EdgeInsets.only(left: 10,right: 10),
                 focusedBorder: OutlineInputBorder(
 
                   borderSide: BorderSide(color: colorBorder, width: 2),

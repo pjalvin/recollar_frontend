@@ -8,12 +8,14 @@ class UserAuth{
     "username":email,
     "grant_type":"password"
   };
-  bool verifyData(){
-    var ver =true;
+  void verifyData(){
     if(password.isEmpty||email.isEmpty){
-      ver=false;
+      throw "Verifique que todos los capos esten llenos";
     }
-    return ver;
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    if(!emailValid){
+      throw "El formato de email no es correcto";
+    }
   }
 
 }

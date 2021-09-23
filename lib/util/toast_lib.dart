@@ -3,8 +3,9 @@ import 'package:recollar_frontend/util/configuration.dart';
 
 class ToastLib{
   static void error(String msg){
-
+    Fluttertoast.cancel();
     Fluttertoast.showToast(
+
         msg: msg,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.SNACKBAR,

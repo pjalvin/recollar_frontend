@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recollar_frontend/bloc/login_bloc.dart';
 import 'package:recollar_frontend/repositories/login_repository.dart';
 import 'package:recollar_frontend/screens/login/login.dart';
+import 'package:recollar_frontend/screens/signup/signup.dart';
 import 'package:recollar_frontend/state/login_state.dart';
 
 class InitialMain extends StatefulWidget {
@@ -22,6 +23,9 @@ class _InitialMainState extends State<InitialMain> {
         {
             if(state is LoginOk){
               return const Scaffold(backgroundColor: Colors.black,body: Center(child: Text("INICIO",style: TextStyle(color: Colors.white),),));
+            }
+            if(state is SignupPage||state is SignupLoading){
+              return const Signup();
             }
             else{
               return const Login();

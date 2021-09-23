@@ -7,11 +7,17 @@ abstract class LoginEvent extends Equatable{
   List<Object> get props =>[];
 
 }
-class LoginStart extends LoginEvent{
+class LoginClick extends LoginEvent{
   final UserAuth userAuth;
-  LoginStart(this.userAuth) ;
+  LoginClick(this.userAuth);
 }
-class SignUpStart extends LoginEvent{
+class SignupClick extends LoginEvent{
   final User user;
-  SignUpStart(this.user);
+  SignupClick(this.user);
+}
+class SignupChangePage extends LoginEvent{
+  SignupChangePage();
+}
+class LoginChangePage extends LoginEvent{
+  LoginChangePage();
 }

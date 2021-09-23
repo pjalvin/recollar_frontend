@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
       setState(() {
         if(sizeP.height>600)socialMediaActive=true;
       });
-      if(listController.position.pixels==listController.position.minScrollExtent){
+      if(listController.position.pixels==listController.position.maxScrollExtent){
         setState(() {
           socialMediaActive=true;
         });
@@ -77,16 +77,15 @@ class _LoginState extends State<Login> {
             children: [
               Carousel(size: sizeP, images: backgroundImages),
               Container(color: Colors.black.withOpacity(0.7), height: sizeP.height, width: sizeP.width),
-              ScrollConfiguration(
-                behavior: MyBehavior(),
+              Scaffold(
+                backgroundColor: Colors.transparent,
+                body: ScrollConfiguration(
+                  behavior: MyBehavior(),
                   child:SingleChildScrollView(
                     controller: listController,
-
-                    reverse: true,
-                    child: Container(
+                    child: SizedBox(
                       height: sizeP.height>600?sizeP.height:600,
                       width: sizeP.width,
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -105,17 +104,17 @@ class _LoginState extends State<Login> {
                               const SizedBox(
                                 height: 25,
                               ),
-                              ButtonPrimaryCPNT( colorBg: color1, colorText: Colors.black, text: "LOGIN",size: Size(sizeP.width*0.7,50),
+                              ButtonPrimaryCPNT( colorBg: color1, colorText: Colors.black, text: "INICIAR SESIÓN",size: Size(sizeP.width*0.7,50),
                                 onPressed:  (){
                                   UserAuth userAuth=UserAuth(passTextController.text, userTextController.text);
-                                  context.read<LoginBloc>().add(LoginStart(userAuth));
+                                  context.read<LoginBloc>().add(LoginClick(userAuth));
                                 },
                               ),
                               const SizedBox(
                                 height: 15,
                               ),
                               TextParagraphCPNT(onPressed: (){}, colorText: colorWhite.withOpacity(0.7), text: "¿No tienes una cuenta?"),
-                              TextParagraphCPNT(onPressed: (){}, colorText: colorWhite, text: "Crear una cuenta"),
+                              TextParagraphCPNT(onPressed: (){context.read<LoginBloc>().add(SignupChangePage());}, colorText: colorWhite, text: "Crear una cuenta"),
 
                             ],
 
@@ -124,6 +123,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+                ),
               ),
               socialMediaActive|| sizeP.height>600?Positioned(
                 child:SocialMedia(size: Size(sizeP.width*0.3,sizeP.width*0.1),images: socialMediaImages,)

@@ -12,9 +12,6 @@ abstract class LoginState extends Equatable{
 class LoginInitial extends LoginState{
   LoginInitial() : super(UserAuth("", ""));
 }
-class SignUpOk extends LoginState{
-  const SignUpOk(UserAuth userAuth) : super(userAuth);
-}
 class LoginOk extends LoginState{
   const LoginOk(UserAuth userAuth) : super(userAuth);
 }
@@ -23,5 +20,10 @@ class LoginFailed extends LoginState{
 }
 class LoginLoading extends LoginState{
   LoginLoading() : super(UserAuth("", ""));
-
+}
+class SignupLoading extends LoginState{
+  SignupLoading() : super(UserAuth("", ""));
+}
+class SignupPage extends  LoginState{
+  SignupPage() : super(UserAuth("", ""));
 }

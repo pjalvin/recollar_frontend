@@ -7,6 +7,9 @@ abstract class LoginEvent extends Equatable{
   List<Object> get props =>[];
 
 }
+class LoginVerify extends LoginEvent{
+  LoginVerify();
+}
 class LoginClick extends LoginEvent{
   final UserAuth userAuth;
   LoginClick(this.userAuth);

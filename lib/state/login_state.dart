@@ -13,7 +13,8 @@ class LoginInitial extends LoginState{
   LoginInitial() : super(UserAuth("", ""));
 }
 class LoginOk extends LoginState{
-  const LoginOk(UserAuth userAuth) : super(userAuth);
+  final User user;
+  const LoginOk(UserAuth userAuth,this.user) : super(userAuth);
 }
 class LoginFailed extends LoginState{
   const LoginFailed(UserAuth userAuth) : super(userAuth);
@@ -26,4 +27,7 @@ class SignupLoading extends LoginState{
 }
 class SignupPage extends  LoginState{
   SignupPage() : super(UserAuth("", ""));
+}
+class LoginPage extends  LoginState{
+  LoginPage(UserAuth userAuth) : super(userAuth);
 }

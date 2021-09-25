@@ -26,19 +26,44 @@ class LoginRepository{
       await prefs.setString("token", body["access_token"] ?? "");
 
   }
+
   Future signup(User user) async{
     user.verifyData();
     var res=await http.post(
-        Uri.http(dotenv.env['API_URL'] ?? "", "/signup"),
+        Uri.http(dotenv.env['API_URL'] ?? "", "/user/signup"),
         body: jsonEncode(user.toJson()),
         headers: {
           "Content-Type": "application/json",
+          "Authorization": dotenv.env['API_TOKEN'] ?? ""
         },
     );
     if(res.statusCode!=200){
-      print(res.body);
       throw "No se pudo registrar al usuario";
     }
 
   }
+
+  Future<User> profile()async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    String ?token= prefs.getString("token");
+    if(token==null){
+      throw "No existe token Almacenado";
+    }
+    var res=await http.get(
+      Uri.http(dotenv.env['API_URL'] ?? "", "/user"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    if(res.statusCode!=200){
+      throw "No se pudo obtener el perfil del usuario";
+    }
+    else{
+      var user=User.fromJson(jsonDecode(res.body));
+      print(user);
+      return user;
+    }
+  }
+
 }

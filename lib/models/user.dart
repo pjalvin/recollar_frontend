@@ -3,8 +3,9 @@ class User {
   String firstName;
   String lastName;
   int phoneNumber;
-  String password;
+  String  password;
   String ? verPassword;
+  String ? imagePath;
 
   User(this.email, this.firstName, this.lastName, this.phoneNumber,this.password);
 
@@ -15,6 +16,13 @@ class User {
     "password":password,
     "email":email,
   };
+  User.fromJson(json ):
+        firstName=json["firstName"],
+        email=json["email"],
+        lastName=json["lastName"],
+        phoneNumber=json["phoneNumber"],
+        imagePath=json["imagePath"]??"",
+        password="";
   void verifyData(){
     if(password.isEmpty||email.isEmpty||firstName.isEmpty||lastName.isEmpty||phoneNumber==0){
       throw "Verifique que todos los capos esten llenos";
@@ -35,6 +43,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, password: $password}';
+    return 'User{email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, password: $password, verPassword: $verPassword, imagePath: $imagePath}';
   }
 }

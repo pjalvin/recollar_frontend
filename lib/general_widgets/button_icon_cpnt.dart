@@ -1,17 +1,20 @@
 
 import 'package:flutter/material.dart';
 class ButtonIconCPNT extends StatelessWidget {
-  ImageProvider  image;
+  ImageProvider  ?image;
+  IconData ?icon;
   VoidCallback  onPressed;
   Size size;
-  ButtonIconCPNT({Key? key,required this.image,required this.onPressed,required this.size}) : super(key: key);
+  Color ?color;
+  ButtonIconCPNT({Key? key,this.image,required this.onPressed, required this.size ,this.icon,this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  IconButton(
       padding: EdgeInsets.zero,
-      icon: Image(image:image,width: size.width,height: size.height,),
+      icon: image!=null?Image(image:image??const AssetImage("assets/icons/fb.png"),width: size.width,height: size.height,):Icon(icon,size: size.width,),
       onPressed: onPressed,
+      color: color,
 
     );
   }

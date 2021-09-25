@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: color1,
           cursorColor: color1,
         ),
+        fontFamily: 'Nexa'
       ),
       home: const InitialMain(),
     );

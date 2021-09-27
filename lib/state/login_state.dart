@@ -29,5 +29,5 @@ class SignupPage extends  LoginState{
   SignupPage() : super(UserAuth("", ""));
 }
 class LoginPage extends  LoginState{
-  LoginPage(UserAuth userAuth) : super(userAuth);
+  const LoginPage(UserAuth userAuth) : super(userAuth);
 }

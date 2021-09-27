@@ -99,32 +99,32 @@ class _SignupState extends State<Signup> {
                                   const SizedBox(
                                     height: 50,
                                   ),
-                                  TextFieldPrimaryCPNT(icon:Icons.person_add,textType: TextInputType.text,obscureText: false, controller: firstNameTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Nombres"),
+                                  TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.person_add,textType: TextInputType.text,obscureText: false, controller: firstNameTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Nombres"),
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  TextFieldPrimaryCPNT(icon:Icons.person_add,textType: TextInputType.text,obscureText: false, controller: lastNameTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Apellidos"),
+                                  TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.person_add,textType: TextInputType.text,obscureText: false, controller: lastNameTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Apellidos"),
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  TextFieldPrimaryCPNT(icon:Icons.phone,textType: TextInputType.phone,obscureText: false, controller: phoneNumberTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Numero de celular"),
+                                  TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.phone,textType: TextInputType.phone,obscureText: false, controller: phoneNumberTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Numero de celular"),
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  TextFieldPrimaryCPNT(icon:Icons.person,textType: TextInputType.emailAddress,obscureText: false, controller: emailTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Correo Electrónico"),
+                                  TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.person,textType: TextInputType.emailAddress,obscureText: false, controller: emailTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Correo Electrónico"),
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  TextFieldPrimaryCPNT(icon:Icons.lock,textType: TextInputType.text,obscureText: true, controller: passTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Contraseña"),
+                                  TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.lock,textType: TextInputType.text,obscureText: true, controller: passTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Contraseña"),
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  TextFieldPrimaryCPNT(icon:Icons.lock,textType: TextInputType.text,obscureText: true, controller: verifyPassTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Verificar contraseña"),
+                                  TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.lock,textType: TextInputType.text,obscureText: true, controller: verifyPassTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Verificar contraseña"),
 
                                   const SizedBox(
                                     height: 25,
                                   ),
-                                  ButtonPrimaryCPNT( colorBg: colorWhite.withOpacity(0.7), colorText: colorBlack, text: "REGISTRARSE",size: Size(sizeP.width*0.7,50),
+                                  ButtonPrimaryCPNT( elevation: 5,colorBg: colorWhite.withOpacity(0.7), colorText: colorBlack, text: "REGISTRARSE",size: Size(sizeP.width*0.7,50),
                                     onPressed:  (){
                                       User user= User(emailTextController.text, firstNameTextController.text, lastNameTextController.text, int.parse(phoneNumberTextController.text), passTextController.text);
                                       user.verPassword=verifyPassTextController.text;

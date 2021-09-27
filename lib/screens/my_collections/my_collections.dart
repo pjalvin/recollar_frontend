@@ -68,11 +68,11 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                   children: [
                     Row(
                       children: [
-                        ButtonIconCPNT(onPressed: (){}, size: const Size(30,20),icon: Icons.check_box,color: colorWhite),
-                            TextTitleCPNT(onPressed: (){}, colorText: colorWhite, text: "Mi Colección"),
+                        ButtonIconCPNT.icon(onPressed: (){}, size: const Size(30,20),icon: Icons.fact_check,color: colorWhite),
+                            TextTitleCPNT(onPressed: (){}, colorText: colorWhite, text: "Mi Colección",weight: FontWeight.w600,),
                       ],
                     ),
-                    ButtonIconCPNT(onPressed: (){}, size: const Size(40,20),icon: Icons.add_circle_outlined,color: color1)
+                    ButtonIconCPNT.icon(onPressed: (){}, size: const Size(40,20),icon: Icons.add_circle_outlined,color: color1)
                   ],
                 )
               ],

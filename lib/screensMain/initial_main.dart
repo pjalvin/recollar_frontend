@@ -25,7 +25,7 @@ class _InitialMainState extends State<InitialMain> {
         builder: (BuildContext context, state)
         {
             if(state is LoginOk){
-              return AppMain(user: state.user,);
+              return AppMain();
             }
             if(state is SignupPage||state is SignupLoading){
               return const Signup();

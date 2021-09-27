@@ -74,12 +74,13 @@ flutter:
     - assets/icons/fb.png
     - assets/icons/git.png
     - assets/icons/tt.png
+    - assets/const/profile.png
     - .env
   fonts:
     - family: Nexa
       fonts:
         - asset: assets/fonts/Nexa_Bold.otf
-          weight: 600
+          weight: 400
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

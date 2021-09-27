@@ -6,8 +6,7 @@ import 'package:recollar_frontend/screens/profile/profile.dart';
 import 'package:recollar_frontend/screens/search/search.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 class AppMain extends StatefulWidget {
-  final User user;
-  const AppMain({Key? key,required this.user}) : super(key: key);
+  const AppMain({Key? key}) : super(key: key);
 
   @override
   _AppMainState createState() {
@@ -16,7 +15,7 @@ class AppMain extends StatefulWidget {
 
 class _AppMainState extends State<AppMain> with SingleTickerProviderStateMixin{
 
-  List<Widget> screens=[MyCollections(),Search(),Profile()];
+  List<Widget> screens=[const MyCollections(),const Search(),const Profile()];
   int _currentIndex=0;
   bool _reverse=false;
 
@@ -35,6 +34,7 @@ class _AppMainState extends State<AppMain> with SingleTickerProviderStateMixin{
     sizeP=MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: colorGray,
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: colorWhite,
@@ -58,23 +58,25 @@ class _AppMainState extends State<AppMain> with SingleTickerProviderStateMixin{
           tabBackgroundColor: color1.withOpacity(0.7),
           padding: EdgeInsets.symmetric( vertical: 8,horizontal: sizeP.width*0.05),
           tabMargin: EdgeInsets.symmetric(vertical: sizeP.height*0.01),
-          onTabChange: (index)async {
+          onTabChange: (int index)async {
             /*controller.animateToPage(index,curve: Curves.fastOutSlowIn,duration: const Duration(milliseconds: 300));*/
-            if(_currentIndex>index){
+            if(index!=_currentIndex){
+              if(_currentIndex>index){
+                setState(() {
+                  _reverse=true;
+                });
+              }
+              else{
+                setState(() {
+                  _reverse=false;
+                });
+              }
+              await _controller.forward(from: 1.5);
               setState(() {
-                _reverse=true;
+                _currentIndex=index;
               });
+              await _controller.reverse();
             }
-            else{
-              setState(() {
-                _reverse=false;
-              });
-            }
-            await _controller.forward(from: 1.5);
-            setState(() {
-              _currentIndex=index;
-            });
-            await _controller.reverse();
           },
           tabs:  [
             GButton(
@@ -102,18 +104,22 @@ class _AppMainState extends State<AppMain> with SingleTickerProviderStateMixin{
 
         ),
       ),
-      body: SlideTransition(position: Tween<Offset>(
-        begin: Offset.zero,
-        end: _reverse?const Offset(-1.5, 0.0):const Offset(1.5, 0),
-      ).animate(CurvedAnimation(
-        parent: _controller,
-        curve: Curves.linear,
-      )),
-        child: IndexedStack(
-          children: screens,
-          index: _currentIndex,
-        ),
+      body: Stack(
+        children: [
+          SlideTransition(position: Tween<Offset>(
+            begin: Offset.zero,
+            end: _reverse?const Offset(-1.5, 0.0):const Offset(1.5, 0),
+          ).animate(CurvedAnimation(
+            parent: _controller,
+            curve: Curves.linear,
+          )),
+            child: IndexedStack(
+              children: screens,
+              index: _currentIndex,
+            ),
 
+          )
+        ],
       )
     );
   }

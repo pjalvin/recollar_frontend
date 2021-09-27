@@ -61,7 +61,6 @@ class LoginRepository{
     }
     else{
       var user=User.fromJson(jsonDecode(res.body));
-      print(user);
       return user;
     }
   }

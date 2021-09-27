@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:recollar_frontend/screensMain/initial_main.dart';
 import 'package:recollar_frontend/util/configuration.dart';
-import 'package:recollar_frontend/screens/login/login.dart';
 
 Future main() async{
 

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recollar_frontend/events/login_event.dart';
 import 'package:recollar_frontend/models/user.dart';
 import 'package:recollar_frontend/models/user_auth.dart';

@@ -1,8 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TextFieldPrimaryCPNT extends StatelessWidget {
+  VoidCallback  onPressed;
+  FocusNode ? focus;
+  Function(String) ? onChanged;
   TextEditingController controller;
   Size size;
   Color colorBg;
@@ -12,14 +13,17 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
   bool obscureText;
   IconData ? icon;
   TextInputType textType;
-  TextFieldPrimaryCPNT({Key? key,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
+  TextFieldPrimaryCPNT({Key? key,this.onChanged,this.focus,required this.onPressed,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return  SizedBox(
       width: size.width,
       height: size.height,
       child:TextField(
+        onTap: onPressed,
+            onChanged: onChanged,
+            focusNode: focus,
             controller: controller,
             obscureText: obscureText,
             keyboardType: textType,
@@ -42,6 +46,7 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
                 border: OutlineInputBorder(borderSide: BorderSide(color: colorBorder,width: 1))),
             style: TextStyle(color: colorText),
             cursorColor: colorText,
+
 
 
 

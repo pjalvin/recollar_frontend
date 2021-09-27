@@ -96,15 +96,15 @@ class _LoginState extends State<Login> {
                               const SizedBox(
                                 height: 100,
                               ),
-                              TextFieldPrimaryCPNT(icon:Icons.person,textType: TextInputType.emailAddress,obscureText: false, controller: userTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Correo Electrónico"),
+                              TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.person,textType: TextInputType.emailAddress,obscureText: false, controller: userTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Correo Electrónico"),
                               const SizedBox(
                                 height: 25,
                               ),
-                              TextFieldPrimaryCPNT(icon:Icons.lock,textType: TextInputType.text,obscureText: true, controller: passTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Contraseña"),
+                              TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.lock,textType: TextInputType.text,obscureText: true, controller: passTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Contraseña"),
                               const SizedBox(
                                 height: 25,
                               ),
-                              ButtonPrimaryCPNT( colorBg: color1, colorText: Colors.black, text: "INICIAR SESIÓN",size: Size(sizeP.width*0.7,50),
+                              ButtonPrimaryCPNT( elevation: 5,colorBg: color1, colorText: Colors.black, text: "INICIAR SESIÓN",size: Size(sizeP.width*0.7,50),
                                 onPressed:  (){
                                   UserAuth userAuth=UserAuth(passTextController.text, userTextController.text);
                                   context.read<LoginBloc>().add(LoginClick(userAuth));

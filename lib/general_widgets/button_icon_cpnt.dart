@@ -6,7 +6,8 @@ class ButtonIconCPNT extends StatelessWidget {
   VoidCallback  onPressed;
   Size size;
   Color ?color;
-  ButtonIconCPNT({Key? key,this.image,required this.onPressed, required this.size ,this.icon,this.color}) : super(key: key);
+  ButtonIconCPNT.image({Key? key,required this.image,required this.onPressed, required this.size}) : super(key: key);
+  ButtonIconCPNT.icon({Key? key,required this.onPressed, required this.size ,required this.icon, required this.color,this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

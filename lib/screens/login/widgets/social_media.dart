@@ -12,25 +12,28 @@ class SocialMedia extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ButtonIconCPNT(image: images[0],
+        ButtonIconCPNT.image(image: images[0],
           size: Size(size.width * 0.3, size.height),
           onPressed: () {
+            //TODO implementar url pagina
             print("facebook");
           },),
         SizedBox(
           width: size.width * 0.05,
         ),
-        ButtonIconCPNT(image: images[1],
+        ButtonIconCPNT.image(image: images[1],
           size: Size(size.width * 0.3, size.height),
           onPressed: () {
+            //TODO implementar url pagina
             print("github");
           },),
         SizedBox(
           width: size.width * 0.05,
         ),
-        ButtonIconCPNT(image:images[2],
+        ButtonIconCPNT.image(image:images[2],
           size: Size(size.width * 0.3, size.height),
           onPressed: () {
+          //TODO implementar url pagina
             print("twitter");
           },),
       ],

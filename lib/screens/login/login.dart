@@ -92,9 +92,9 @@ class _LoginState extends State<Login> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset("assets/logo.png",width: sizeP.width*0.6,height: 50,),
+                              Image.asset("assets/square_logo.png",width: sizeP.width*0.6,height: 140,),
                               const SizedBox(
-                                height: 100,
+                                height: 50,
                               ),
                               TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.person,textType: TextInputType.emailAddress,obscureText: false, controller: userTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Correo Electrónico"),
                               const SizedBox(

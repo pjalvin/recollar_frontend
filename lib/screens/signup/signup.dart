@@ -95,9 +95,9 @@ class _SignupState extends State<Signup> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset("assets/logo.png",width: sizeP.width*0.6,height: 50,),
+                                  Image.asset("assets/logo.png",width: sizeP.width*0.6,height: 70,),
                                   const SizedBox(
-                                    height: 50,
+                                    height: 30,
                                   ),
                                   TextFieldPrimaryCPNT(onPressed:(){},icon:Icons.person_add,textType: TextInputType.text,obscureText: false, controller: firstNameTextController, colorBorder: colorWhite, size: Size(sizeP.width*0.7,50), colorBg: Colors.transparent, colorText: colorWhite, hintText: "Nombres"),
                                   const SizedBox(

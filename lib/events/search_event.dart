@@ -7,6 +7,6 @@ abstract class SearchEvent extends Equatable{
 
 }
 class SearchInitPredict extends SearchEvent{
-  String key;
+  final String key;
   SearchInitPredict(this.key);
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextFieldPrimaryCPNT extends StatelessWidget {
-  VoidCallback  onPressed;
+  VoidCallback  ?onPressed;
+  VoidCallback  ?onFinish;
   FocusNode ? focus;
   Function(String) ? onChanged;
   TextEditingController controller;
@@ -13,7 +14,7 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
   bool obscureText;
   IconData ? icon;
   TextInputType textType;
-  TextFieldPrimaryCPNT({Key? key,this.onChanged,this.focus,required this.onPressed,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
+  TextFieldPrimaryCPNT({Key? key,this.onFinish,this.onChanged,this.focus,this.onPressed,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,8 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
       height: size.height,
       child:TextField(
         onTap: onPressed,
-            onChanged: onChanged,
+        onChanged: onChanged,
+        onEditingComplete: onFinish,
             focusNode: focus,
             controller: controller,
             obscureText: obscureText,

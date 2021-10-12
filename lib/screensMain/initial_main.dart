@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recollar_frontend/bloc/login_bloc.dart';
 import 'package:recollar_frontend/events/login_event.dart';
 import 'package:recollar_frontend/repositories/login_repository.dart';
 import 'package:recollar_frontend/screens/login/login.dart';
 import 'package:recollar_frontend/screens/signup/signup.dart';
 import 'package:recollar_frontend/state/login_state.dart';
+import 'package:recollar_frontend/util/configuration.dart';
 
 import 'app_main.dart';
 
@@ -31,7 +33,15 @@ class _InitialMainState extends State<InitialMain> {
               return const Signup();
             }
             if(state is LoginInitial){
-              return Container(color: Colors.red,);
+              return Container(
+                color: color2,
+                child: const Center(
+                  child: SpinKitFadingCube(
+                      color: Colors.white,
+                      size: 30
+                  ) ,
+                ),
+              );
             }
             else{
               return const Login();

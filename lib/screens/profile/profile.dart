@@ -49,7 +49,7 @@ class _ProfileState extends State<Profile>  with AutomaticKeepAliveClientMixin{
                   children: [
                     ClipRRect(
 
-                      child: Image(image:state.user.imagePath!=null&&state.user.imagePath!=""?NetworkImage(state.user.imagePath??"") as ImageProvider:const AssetImage("assets/const/profile.png"),fit:BoxFit.cover,width: sizeP.width*0.4,height: sizeP.width*0.4,),
+                      child: Image(image:state.user.imagePath!=null&&state.user.imagePath!=""?NetworkImage(state.user.imagePath??"") as ImageProvider:const AssetImage("assets/const/profile.png"),fit:BoxFit.cover,width: 150,height: 150,),
                       borderRadius:  BorderRadius.circular(sizeP.width*0.25),
 
                     )

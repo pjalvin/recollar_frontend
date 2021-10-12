@@ -56,16 +56,7 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                           child: Center(
                               child: Opacity(
                                 opacity: 0.1,
-                                child: Container(
-                                  height: 25,
-                                  width: 100,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage("assets/logo_black.png",)
-                                    ),
-                                  ),
-                                ),
+                                child:  Image.asset("assets/square_logo_black.png",width: sizeP.width*0.6,height: 100,),
                               )
                           ),
                         )
@@ -77,10 +68,7 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                     children: [
                       GestureDetector(
                         onTap: (){
-                          focus.unfocus();
-                          setState(() {
-                            _searchActive=false;
-                          });
+                          _searchCancel();
                         },
                         child: Container(
                           height: sizeP.height,
@@ -108,7 +96,8 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                                       child: ListView(
 
                                         children: [
-                                          TextParagraphCPNT(onPressed: (){
+                                          TextParagraphCPNT(
+                                              onPressed: (){
                                             setState(() {
                                               searchController.text=word;
                                             });}, colorText: colorWhite, text: word),
@@ -145,9 +134,10 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                               children: [
                                 TextFieldPrimaryCPNT(
                                     onPressed:(){
-                                      setState(() {
-                                        _searchActive=true;
-                                      });
+                                      _searchInit();
+                                    },
+                                    onFinish:(){
+                                      _searchOK();
                                     }
                                     ,onChanged: (key){
                                       context.read<SearchBloc>().add(SearchInitPredict(key));
@@ -167,6 +157,27 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
         }
       ),
     );
+  }
+
+  void _searchInit(){
+    setState(() {
+      _searchActive=true;
+    });
+
+  }
+  void _searchCancel(){
+    focus.unfocus();
+    setState(() {
+      _searchActive=false;
+    });
+
+  }
+  void _searchOK(){
+    focus.unfocus();
+    setState(() {
+      _searchActive=false;
+    });
+
   }
 
   @override

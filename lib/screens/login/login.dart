@@ -106,6 +106,7 @@ class _LoginState extends State<Login> {
                               ),
                               ButtonPrimaryCPNT( elevation: 5,colorBg: color1, colorText: Colors.black, text: "INICIAR SESIÓN",size: Size(sizeP.width*0.7,50),
                                 onPressed:  (){
+                                  FocusScope.of(context).unfocus();
                                   UserAuth userAuth=UserAuth(passTextController.text, userTextController.text);
                                   context.read<LoginBloc>().add(LoginClick(userAuth));
                                 },

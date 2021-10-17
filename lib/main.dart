@@ -8,8 +8,6 @@ Future main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  SharedPreferences prefs=await SharedPreferences.getInstance();
-  prefs.remove("token");
   runApp(const MyApp());
 }
 

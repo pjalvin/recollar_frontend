@@ -126,6 +126,7 @@ class _SignupState extends State<Signup> {
                                   ),
                                   ButtonPrimaryCPNT( elevation: 5,colorBg: colorWhite.withOpacity(0.7), colorText: colorBlack, text: "REGISTRARSE",size: Size(sizeP.width*0.7,50),
                                     onPressed:  (){
+                                      FocusScope.of(context).unfocus();
                                       User user= User(emailTextController.text, firstNameTextController.text, lastNameTextController.text, int.parse(phoneNumberTextController.text), passTextController.text);
                                       user.verPassword=verifyPassTextController.text;
                                       context.read<LoginBloc>().add(SignupClick(user));

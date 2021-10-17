@@ -66,6 +66,10 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
     else if(event is LoginChangePage){
       yield LoginPage(UserAuth("",""));
     }
+    else if(event is SignOut){
+      await loginRepository.signOut();
+      yield LoginPage(UserAuth("",""));
+    }
 
   }
 

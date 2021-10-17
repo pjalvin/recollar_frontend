@@ -20,11 +20,24 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
     if(event is ProfileInit){
       try{
         yield ProfileLoading();
-        User user=await _profileRepository.profile();
-        yield ProfileOk(user);
+        await _profileRepository.profile();
+        yield ProfileOk( _profileRepository.user);
       }
       catch (e){
+
         yield ProfileLoading();
+      }
+    }
+    if(event is ProfileChange){
+      try{
+        yield ProfileLoading();
+        await _profileRepository.updateProfile(event.profileRequest);
+        ToastLib.ok("Datos modificados correctamente");
+        yield ProfileOk( _profileRepository.user);
+      }
+      catch (e){
+        ToastLib.error(e.toString());
+        yield ProfileOk( _profileRepository.user);
       }
     }
   }

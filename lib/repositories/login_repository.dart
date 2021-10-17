@@ -65,4 +65,9 @@ class LoginRepository{
     }
   }
 
+  signOut()async{
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    prefs.remove("token");
+  }
+
 }

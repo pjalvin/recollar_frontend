@@ -32,7 +32,7 @@ class Carousel extends StatelessWidget {
             enlargeCenterPage: false,
             autoPlay: true,
             enableInfiniteScroll: true,
-            autoPlayInterval: const Duration(seconds: 10),
+            autoPlayInterval: const Duration(seconds: 5),
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
           ),

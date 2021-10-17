@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ButtonPrimaryCPNT extends StatelessWidget {
-  VoidCallback  onPressed;
+  VoidCallback  ? onPressed;
   Size size;
   Color colorBg;
   Color colorText;
@@ -17,6 +17,7 @@ class ButtonPrimaryCPNT extends StatelessWidget {
           minWidth:size.width,
           onPressed: onPressed,
           color: colorBg,
+          disabledColor: colorBg,
           child: Center(
             child: Text(text,style: TextStyle(color: colorText,fontSize: 18),),
           ),

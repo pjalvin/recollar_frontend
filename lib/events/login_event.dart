@@ -24,3 +24,6 @@ class SignupChangePage extends LoginEvent{
 class LoginChangePage extends LoginEvent{
   LoginChangePage();
 }
+class SignOut extends LoginEvent{
+  SignOut();
+}

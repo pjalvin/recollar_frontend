@@ -6,13 +6,14 @@ class TextTitleCPNT extends StatelessWidget {
   Color colorText;
   String text;
   FontWeight weight;
-  TextTitleCPNT({Key? key,required this.onPressed,required this.colorText,required this.text,required this.weight}) : super(key: key);
+  int ?maxLines=1;
+  TextTitleCPNT({Key? key,required this.onPressed,required this.colorText,required this.text,required this.weight,this.maxLines}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
       onTap: onPressed,
-      child: Text(text,style: TextStyle(color: colorText,fontSize: 25,fontWeight: weight),),
+      child: Text(text,style: TextStyle(color: colorText,fontSize: 25,fontWeight: weight,),maxLines: maxLines,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,),
 
     );
   }

@@ -13,8 +13,9 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
   String hintText;
   bool obscureText;
   IconData ? icon;
+  int ?maxLength;
   TextInputType textType;
-  TextFieldPrimaryCPNT({Key? key,this.onFinish,this.onChanged,this.focus,this.onPressed,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
+  TextFieldPrimaryCPNT({Key? key,this.maxLength,this.onFinish,this.onChanged,this.focus,this.onPressed,required this.icon,required this.textType,required this.obscureText,required this.controller,required this.colorBorder,required this.size,required this.colorBg,required this.colorText,required this.hintText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
       height: size.height,
       child:TextField(
         onTap: onPressed,
+        maxLength: maxLength,
         onChanged: onChanged,
         onEditingComplete: onFinish,
             focusNode: focus,
@@ -30,6 +32,7 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
             obscureText: obscureText,
             keyboardType: textType,
             decoration: InputDecoration(
+                counterText: "",
               prefixIcon: icon!=null?Icon(icon,color:colorText):null ,
               fillColor: colorBg,
 

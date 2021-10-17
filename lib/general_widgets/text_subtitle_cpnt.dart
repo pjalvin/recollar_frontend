@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TextSubtitleCPNT extends StatelessWidget {
   VoidCallback  ?onPressed;
-  Color colorText;
+  Color ? colorText;
   String text;
   FontWeight weight;
   TextSubtitleCPNT({Key? key,this.onPressed,required this.colorText,required this.text,required this.weight}) : super(key: key);

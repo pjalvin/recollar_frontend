@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:recollar_frontend/models/profile_request.dart';
 
 
 abstract class ProfileEvent extends Equatable{
@@ -8,4 +9,8 @@ abstract class ProfileEvent extends Equatable{
 }
 class ProfileInit extends ProfileEvent{
   ProfileInit();
+}
+class ProfileChange extends ProfileEvent{
+  final ProfileRequest profileRequest;
+  ProfileChange(this.profileRequest);
 }

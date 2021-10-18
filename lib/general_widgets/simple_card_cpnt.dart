@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/util/configuration.dart';
@@ -12,24 +13,36 @@ class SimpleCardCPNT extends StatelessWidget {
   Size size;
   String text;
   String text2;
-
   SimpleCardCPNT({Key? key,required this.color,required this.borderColor,required this.text2,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          child: ShaderMask(
+            blendMode: BlendMode.color,
+            shaderCallback: (Rect bounds) => const LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color.fromRGBO(21, 81, 91, 1),
+                Color.fromRGBO(51, 135, 134, .8),
+              ],
+            ).createShader(bounds),
             child: Container(
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular( size.width*0.05),
-                  //#D4D4D5
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular( size.width*0.05),
+                image: const DecorationImage(
+                    image: AssetImage('assets/background/b1.jpg')
                 ),
-                width: size.width,
-                height: size.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
+              ),
+              width: size.width,
+              height: size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
                       height: size.height*0.4,
                       width: size.width,
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.03,vertical: size.width*0.01),
@@ -43,22 +56,29 @@ class SimpleCardCPNT extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              TextSubtitleCPNT(text: text,colorText: textColor,weight: FontWeight.w400),
+                              Container(
+                                margin: const EdgeInsets.only(top: 8),
+                                child: TextSubtitleCPNT(text: text,colorText: textColor,weight: FontWeight.w400),
+                              )
                             ],
                           ),
                           Row(
-                            
                             children: [
-                              TextParagraphCPNT(text: text2,colorText: textColor.withOpacity(0.5), onPressed: () {  },),
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 7,left: 10),
+                                child: TextParagraphCPNT(text: text2,colorText: textColor.withOpacity(0.5), onPressed: () {  },),
+                              ),
                             ],
                           )
                         ],
                       )
-                    )
-                  ],
-                )
+                  )
+                ],
+              ),
             ),
-            onTap: onPressed
-          );
+          ),
+        ),
+    onTap: onPressed
+   );
   }
 }

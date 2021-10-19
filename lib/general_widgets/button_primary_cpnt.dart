@@ -19,7 +19,7 @@ class ButtonPrimaryCPNT extends StatelessWidget {
           color: colorBg,
           disabledColor: colorBg,
           child: Center(
-            child: Text(text,style: TextStyle(color: colorText,fontSize: 18),),
+            child: Text(text,style: TextStyle(color: colorText,fontSize: 18,fontWeight: FontWeight.w600),),
           ),
 
         );

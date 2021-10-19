@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/util/configuration.dart';
@@ -13,7 +16,10 @@ class SimpleCardCPNT extends StatelessWidget {
   Size size;
   String text;
   String text2;
-  SimpleCardCPNT({Key? key,required this.color,required this.borderColor,required this.text2,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
+  String image;
+  String token;
+  String imagePath;
+  SimpleCardCPNT({Key? key,required this.imagePath,required this.token,required this.image,required this.color,required this.borderColor,required this.text2,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +39,9 @@ class SimpleCardCPNT extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular( size.width*0.05),
-                image: const DecorationImage(
-                    image: AssetImage('assets/background/b1.jpg')
+                image:DecorationImage(
+                    image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+imagePath+"/"+image,headers: {"Authorization":"Bearer $token"})
+                  ,fit: BoxFit.fill
                 ),
               ),
               width: size.width,
@@ -52,7 +59,7 @@ class SimpleCardCPNT extends StatelessWidget {
                         //#D4D4D5
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Row(
                             children: [
@@ -65,7 +72,7 @@ class SimpleCardCPNT extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                margin: const EdgeInsets.only(bottom: 7,left: 10),
+                                margin: const EdgeInsets.only(bottom: 7),
                                 child: TextParagraphCPNT(text: text2,colorText: textColor.withOpacity(0.5), onPressed: () {  },),
                               ),
                             ],

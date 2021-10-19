@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -10,9 +8,10 @@ import 'package:recollar_frontend/general_widgets/simple_card_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
 import 'package:recollar_frontend/repositories/my_collections_repository.dart';
+import 'package:recollar_frontend/screens/my_collections/collection_form.dart';
 import 'package:recollar_frontend/state/my_collections_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
-
+import 'package:image_picker/image_picker.dart';
 class MyCollections extends StatefulWidget {
   const MyCollections({Key? key}) : super(key: key);
 
@@ -94,7 +93,9 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                                   TextTitleCPNT(onPressed: (){}, colorText: colorWhite, text: "Mi Colección",weight: FontWeight.w600,),
                             ],
                           ),
-                          ButtonIconCPNT.icon(onPressed: (){}, size: const Size(40,20),icon: Icons.add_circle_outlined,color: color1)
+                          ButtonIconCPNT.icon(onPressed: (){
+                            addCollection(context);
+                          }, size: const Size(40,20),icon: Icons.add_circle_outlined,color: color1)
                         ],
                       )
                     ],
@@ -114,22 +115,30 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
     var height=150.0;
     for(var i=0;i<collectionList.length;i++){
       var col=collectionList[i];
-
+      print(col.color);
       if(i%3==0) {
         list.add(SimpleCardCPNT(color: col.color,
-            borderColor: col.color.withOpacity(0.5),
+            borderColor: color2.withOpacity(0.5),
             text: col.name,
-            text2: "Artículos: ${col.count}",
+            text2: "Artículos: ${col.amount}",
             textColor: color2,
-            size: Size(sizeP.width, height)));
+            size: Size(sizeP.width, height),
+            image: col.image,
+            token:col.token,
+            imagePath: "imageCollection",));
       }
       else{
         list.add(SimpleCardCPNT(color: col.color,
-            borderColor: col.color.withOpacity(0.5),
+            borderColor: color2.withOpacity(0.5),
             text: col.name,
-            text2: "Artículos: ${col.count}",
+            text2: "Artículos: ${col.amount}",
             textColor: color2,
-            size: Size(sizeP.width, height)));
+            size: Size(sizeP.width, height),
+            image: col.image,
+            token:col.token,
+            imagePath: "imageCollection"
+        ),
+        );
 
       }
     }
@@ -149,9 +158,16 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
     }
     return list;
   }
+  void addCollection(BuildContext context){
+    context.read<MyCollectionsBloc>().add(MyCollectionsInitForm(null));
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>
+    BlocProvider.value(
+      value: BlocProvider.of<MyCollectionsBloc>(context),
+      child: const CollectionForm(),
+    )));
+  }
 
   @override
   bool get wantKeepAlive => true;
-
 
 }

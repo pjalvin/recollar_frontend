@@ -13,8 +13,14 @@ class MyCollectionsBloc extends Bloc<MyCollectionsEvent,MyCollectionsState>{
   Stream<MyCollectionsState> mapEventToState(MyCollectionsEvent event) async* {
     if(event is MyCollectionsInit){
       yield MyCollectionsLoading();
-      var list=await _myCollectionsRepository.getCollections();
-      yield MyCollectionsOk(list);
+      var list=await _myCollectionsRepository.getCollections(init: true);
+      yield MyCollectionsOk(_myCollectionsRepository.collections);
+    }
+    if(event is MyCollectionsInitForm){
+      yield MyCollectionsLoadingForm();
+      await _myCollectionsRepository.getCategories();
+      var categories=_myCollectionsRepository.categories;
+      yield MyCollectionsForm(categories, event.collection);
     }
   }
 

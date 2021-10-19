@@ -2,11 +2,18 @@ import 'package:flutter/cupertino.dart';
 
 class Collection{
   int idCollection;
-  Color color;
+  String image;
   String name;
-  int count;
+  int amount;
+  String token;
+  Color color;
 
-  Collection(this.idCollection, this.color, this.name, this.count);
+  Collection.fromJson(json,this.token):
+        idCollection=json["idCollection"],
+        image=json["image"]??"",
+        name=json["name"],
+        amount=json["amount"],
+        color=Color(int.parse("ff"+json["color"], radix: 16));
 
 
 }

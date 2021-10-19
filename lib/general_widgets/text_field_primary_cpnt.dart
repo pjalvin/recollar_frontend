@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldPrimaryCPNT extends StatelessWidget {
@@ -49,7 +50,7 @@ class TextFieldPrimaryCPNT extends StatelessWidget {
                 hintText: hintText,
                 hintStyle: TextStyle(color: colorText.withOpacity(0.5)),
                 border: OutlineInputBorder(borderSide: BorderSide(color: colorBorder,width: 1))),
-            style: TextStyle(color: colorText),
+            style: TextStyle(color: colorText,fontWeight: FontWeight.w600),
             cursorColor: colorText,
 
 

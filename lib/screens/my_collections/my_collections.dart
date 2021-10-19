@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -121,6 +123,8 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
             borderColor: color2.withOpacity(0.5),
             text: col.name,
             text2: "Artículos: ${col.amount}",
+            firstColor: maskcolor1,
+            secondColor: maskcolor2,
             textColor: color2,
             size: Size(sizeP.width, height),
             image: col.image,
@@ -132,6 +136,8 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
             borderColor: color2.withOpacity(0.5),
             text: col.name,
             text2: "Artículos: ${col.amount}",
+            firstColor: maskcolor1,
+            secondColor: maskcolor2,
             textColor: color2,
             size: Size(sizeP.width, height),
             image: col.image,
@@ -169,5 +175,6 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
 
   @override
   bool get wantKeepAlive => true;
+
 
 }

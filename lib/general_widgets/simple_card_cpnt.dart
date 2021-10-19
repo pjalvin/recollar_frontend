@@ -13,13 +13,15 @@ class SimpleCardCPNT extends StatelessWidget {
   Color color;
   Color borderColor;
   Color textColor;
+  Color firstColor;
+  Color secondColor;
   Size size;
   String text;
   String text2;
   String image;
   String token;
   String imagePath;
-  SimpleCardCPNT({Key? key,required this.imagePath,required this.token,required this.image,required this.color,required this.borderColor,required this.text2,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
+  SimpleCardCPNT({Key? key,required this.imagePath,required this.token,required this.image,required this.color,required this.borderColor,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,12 @@ class SimpleCardCPNT extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           child: ShaderMask(
             blendMode: BlendMode.color,
-            shaderCallback: (Rect bounds) => const LinearGradient(
+            shaderCallback: (Rect bounds) => LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color.fromRGBO(21, 81, 91, 1),
-                Color.fromRGBO(51, 135, 134, .8),
+                this.firstColor,
+                this.secondColor,
               ],
             ).createShader(bounds),
             child: Container(

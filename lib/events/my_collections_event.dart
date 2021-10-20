@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recollar_frontend/models/collection.dart';
+import 'package:recollar_frontend/models/collection_request.dart';
 
 
 abstract class MyCollectionsEvent extends Equatable{
@@ -14,4 +16,9 @@ class MyCollectionsInit extends MyCollectionsEvent{
 class MyCollectionsInitForm extends MyCollectionsEvent{
   final Collection ? collection;
   MyCollectionsInitForm(this.collection);
+}
+class MyCollectionsAdd extends MyCollectionsEvent{
+  final CollectionRequest collectionRequest;
+  final XFile imageFile;
+  MyCollectionsAdd(this.collectionRequest,this.imageFile);
 }

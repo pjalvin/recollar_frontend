@@ -10,6 +10,7 @@ import 'package:recollar_frontend/general_widgets/text_field_primary_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/repositories/search_repository.dart';
+import 'package:recollar_frontend/screens/ar_visor/ar_visor.dart';
 import 'package:recollar_frontend/state/search_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
@@ -145,7 +146,10 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                                 ,focus:focus,icon: null, textType: TextInputType.text, obscureText: false, controller: searchController, colorBorder: _searchActive?colorWhite:color2, size: Size((sizeP.width-30)*0.8,50), colorBg: _searchActive?colorWhite.withOpacity(0.8):color2.withOpacity(1), colorText: _searchActive?color2:colorWhite, hintText: "Buscar objetos coleccionables")
                               ],
                             ),
-                            ButtonIconCPNT.icon(onPressed: (){}, size: const Size(30,20),icon: Icons.search,color: _searchActive?colorWhite:color2)
+                            ButtonIconCPNT.icon(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const ArVisor()));
+
+                            }, size: const Size(30,20),icon: Icons.search,color: _searchActive?colorWhite:color2)
                           ],
                         )
                       ],

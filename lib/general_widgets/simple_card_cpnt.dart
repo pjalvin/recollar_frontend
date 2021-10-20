@@ -42,8 +42,8 @@ class SimpleCardCPNT extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular( size.width*0.05),
                 image:DecorationImage(
-                    image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+imagePath+"/"+image,headers: {"Authorization":"Bearer $token"})
-                  ,fit: BoxFit.fill
+                    image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"})
+                  ,fit: BoxFit.cover
                 ),
               ),
               width: size.width,

@@ -1,13 +1,18 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recollar_frontend/models/category.dart';
 import 'package:recollar_frontend/models/collection.dart';
+import 'package:recollar_frontend/models/collection_request.dart';
 import 'package:recollar_frontend/models/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image/image.dart' as image;
 class MyCollectionsRepository{
   List<Collection> collections=[];
   List<Category> categories=[];
@@ -39,6 +44,30 @@ class MyCollectionsRepository{
       }
     }
   }
+  addCollection(CollectionRequest collectionRequest,XFile imageFile)async{
+
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    String ?token= prefs.getString("token");
+    if(token==null){
+      throw "No existe token Almacenado";
+    }
+    var res=await http.post(
+      Uri.http(dotenv.env['API_URL'] ?? "", "/collection"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+      body: jsonEncode(collectionRequest.toJson())
+    );
+    if(res.statusCode!=200){
+      throw "No se pudo agregar la coleccion";
+    }
+    else{
+      print(res.body);
+      var body=jsonDecode(res.body);
+      await uploadImages(imageFile, body["idCollection"]);
+    }
+  }
   Future<void> getCategories()async{
 
     SharedPreferences prefs=await SharedPreferences.getInstance();
@@ -65,6 +94,32 @@ class MyCollectionsRepository{
         categories.add(Category.fromJson(cat));
       }
     }
+  }
+  uploadImages(XFile imageFile,idCollection)async{
+
+
+      var uri = Uri.http(dotenv.env['API_URL'] ?? "", "/collection/image",{"idCollection":idCollection.toString()});
+
+
+      SharedPreferences prefs=await SharedPreferences.getInstance();
+      String ?token= prefs.getString("token");
+      var request = http.MultipartRequest('PUT', uri)
+        ..fields['idCollection'] = idCollection.toString()
+        ..headers["Authorization"]="Bearer "+(token??"");
+      image.Image? imageTemp = image.decodeImage(File(imageFile.path).readAsBytesSync());
+      var imgResize=image.copyResize(imageTemp!,width: 500,height: 500);
+      var imagenMulti=http.MultipartFile.fromBytes("images", image.encodeJpg(imgResize),
+        filename: 'resized_image.jpg',
+        contentType: MediaType.parse('image/jpeg'),);
+      request.files.add(imagenMulti);
+      var response = await request.send();
+      print(request.url);
+      if(response.statusCode==200){
+      }
+      else{
+        throw "No se pudo obtener las collection";
+      }
+
   }
 
 

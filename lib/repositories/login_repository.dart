@@ -37,6 +37,7 @@ class LoginRepository{
           "Authorization": dotenv.env['API_TOKEN'] ?? ""
         },
     );
+    print(res.body);
     if(res.statusCode!=200){
       throw "No se pudo registrar al usuario";
     }

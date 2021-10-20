@@ -113,13 +113,14 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
   }
 
   List<Widget> getList(List<Collection> collectionList){
+    print(collectionList);
     List<Widget> list=[];
     var height=150.0;
     for(var i=0;i<collectionList.length;i++){
       var col=collectionList[i];
-      print(col.color);
+      print(col.image);
       if(i%3==0) {
-        list.add(SimpleCardCPNT(color: col.color,
+        list.add(SimpleCardCPNT(color: color2,
             borderColor: color2.withOpacity(0.5),
             text: col.name,
             text2: "Artículos: ${col.amount}",
@@ -132,7 +133,7 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
             imagePath: "imageCollection",));
       }
       else{
-        list.add(SimpleCardCPNT(color: col.color,
+        list.add(SimpleCardCPNT(color: color2,
             borderColor: color2.withOpacity(0.5),
             text: col.name,
             text2: "Artículos: ${col.amount}",

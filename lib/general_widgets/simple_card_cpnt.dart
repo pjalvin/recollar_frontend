@@ -88,7 +88,7 @@ class SimpleCardCPNT extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           FlatButton(
-                                            onPressed: (){},
+                                            onPressed: () => Navigator.pop(context),
                                             child: Text("Cancelar",
                                               style: TextStyle(
                                                 color: colorWhite,

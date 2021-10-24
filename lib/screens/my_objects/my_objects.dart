@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/src/provider.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
-import 'widgets/dialog_card.dart';
+import 'dialog_card.dart';
 import 'package:recollar_frontend/general_widgets/object_card.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
@@ -82,7 +83,11 @@ class _MyObjectsState extends State<MyObjects>{
                         ],
                       ),
                       ButtonIconCPNT.icon(onPressed: (){
-                      }, size: const Size(40,20),icon: Icons.add_circle_outlined,color: color1)
+                      },
+                      size: const Size(40,20),
+                      icon: Icons.add_circle_outlined,
+                      color: color1
+                      )
                     ],
                   )
                 ],
@@ -127,5 +132,6 @@ class _MyObjectsState extends State<MyObjects>{
     }
     return list;
   }
+
   
 }

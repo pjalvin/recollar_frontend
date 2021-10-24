@@ -7,7 +7,7 @@ import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
-import '../../../main.dart';
+import '../../main.dart';
 
 class DialogCard extends StatelessWidget{
   Object obj;
@@ -166,7 +166,7 @@ class DialogCard extends StatelessWidget{
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           FlatButton(
-                            onPressed: (){},
+                            onPressed: () => Navigator.pop(context),
                             child: Text("Cancelar",
                               style: TextStyle(
                                 color: colorWhite,

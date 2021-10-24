@@ -51,6 +51,25 @@ class SimpleCardCPNT extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: color2,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                              Icons.delete
+                          ),
+                          iconSize: 30,
+                          color: colorWhite,
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
+                  ),
                   Container(
                       height: size.height*0.4,
                       width: size.width,

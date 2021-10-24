@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
+import 'widgets/dialog_card.dart';
 import 'package:recollar_frontend/general_widgets/object_card.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
@@ -81,7 +82,6 @@ class _MyObjectsState extends State<MyObjects>{
                         ],
                       ),
                       ButtonIconCPNT.icon(onPressed: (){
-
                       }, size: const Size(40,20),icon: Icons.add_circle_outlined,color: color1)
                     ],
                   )
@@ -93,20 +93,22 @@ class _MyObjectsState extends State<MyObjects>{
     );
   }
 
-  List<Widget> getList(List<Object> collectionList){
-    print(collectionList);
+  List<Widget> getList(List<Object> objectList){
+    print(objectList);
     List<Widget> list=[];
     var height=150.0;
-    for(var i=0;i<collectionList.length;i++){
-      var col=collectionList[i];
-      print(col.image);
-      list.add(ObjectCard(onPressed: (){},
-          borderColor: color2.withOpacity(0.5),
-          textColor: colorWhite,
-          size: Size(sizeP.width, sizeP.height*0.3),
-          text: col.name,
-          image: col.image,
-          /*imagePath: imagePath*/));
+    for(var i=0;i<objectList.length;i++){
+      var obj=objectList[i];
+      print(obj.image);
+      list.add(ObjectCard(onPressed: (){
+        showDialog(context: context, builder: (context) => DialogCard(obj));
+      },
+        borderColor: color2.withOpacity(0.5),
+        textColor: colorWhite,
+        size: Size(sizeP.width, sizeP.height*0.3),
+        text: obj.name,
+        image: obj.image,
+        /*imagePath: imagePath*/));
     }
     return list;
   }

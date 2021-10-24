@@ -31,6 +31,9 @@ class MyCollectionsRepository{
       },
     );
     if(res.statusCode!=200){
+      print(res.body);
+      print(res.request!.url);
+      print(token);
       throw "No se pudo obtener el perfil del usuario";
     }
     else{

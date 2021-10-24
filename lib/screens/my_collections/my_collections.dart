@@ -11,6 +11,7 @@ import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
 import 'package:recollar_frontend/repositories/my_collections_repository.dart';
 import 'package:recollar_frontend/screens/my_collections/collection_form.dart';
+import 'package:recollar_frontend/screens/my_objects/my_objects.dart';
 import 'package:recollar_frontend/state/my_collections_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 import 'package:image_picker/image_picker.dart';
@@ -103,7 +104,6 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                     ],
                   ),
                 ),
-
               ],
             )
           );
@@ -119,35 +119,21 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
     for(var i=0;i<collectionList.length;i++){
       var col=collectionList[i];
       print(col.image);
-      if(i%3==0) {
-        list.add(SimpleCardCPNT(color: color2,
-            borderColor: color2.withOpacity(0.5),
-            text: col.name,
-            text2: "Artículos: ${col.amount}",
-            firstColor: maskcolor1,
-            secondColor: maskcolor2,
-            textColor: color2,
-            size: Size(sizeP.width, height),
-            image: col.image,
-            token:col.token,
-            imagePath: "imageCollection",));
-      }
-      else{
-        list.add(SimpleCardCPNT(color: color2,
-            borderColor: color2.withOpacity(0.5),
-            text: col.name,
-            text2: "Artículos: ${col.amount}",
-            firstColor: maskcolor1,
-            secondColor: maskcolor2,
-            textColor: color2,
-            size: Size(sizeP.width, height),
-            image: col.image,
-            token:col.token,
-            imagePath: "imageCollection"
-        ),
-        );
-
-      }
+      list.add(SimpleCardCPNT(color: color2,
+        borderColor: color2.withOpacity(0.5),
+        text: col.name,
+        text2: "Artículos: ${col.amount}",
+        firstColor: maskcolor1,
+        secondColor: maskcolor2,
+        textColor: color2,
+        size: Size(sizeP.width, height),
+        image: col.image,
+        token:col.token,
+        imagePath: "imageCollection",
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> MyObjects(col)));
+        },
+      ));
     }
     return list;
   }

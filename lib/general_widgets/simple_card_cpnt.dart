@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -65,7 +67,52 @@ class SimpleCardCPNT extends StatelessWidget {
                           ),
                           iconSize: 30,
                           color: colorWhite,
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(context: context,
+                                builder: (context){
+                                  return AlertDialog(
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly
+                                      ,children: [
+                                      TextSubtitleCPNT(colorText: color2, text: "Confirmar eliminación", weight: FontWeight.w700),
+                                      Icon(
+                                        Icons.announcement,
+                                        color: errorcolor,
+                                        size: 25,
+                                      ),
+                                    ],
+                                    ),
+                                    content: TextParagraphCPNT(onPressed: (){}, colorText: color2, text: "¿Desea eliminar esta colección?"),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          FlatButton(
+                                            onPressed: (){},
+                                            child: Text("Cancelar",
+                                              style: TextStyle(
+                                                color: colorWhite,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            color: color2,
+                                          ),
+                                          FlatButton(
+                                            onPressed: (){},
+                                            child: Text("Eliminar",
+                                              style: TextStyle(
+                                                color: colorWhite,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            color: errorcolor,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
                         ),
                       ),
                     ],

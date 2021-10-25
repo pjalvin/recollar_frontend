@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recollar_frontend/bloc/my_collections_bloc.dart';
 import 'package:recollar_frontend/events/my_collections_event.dart';
@@ -13,6 +14,7 @@ import 'package:recollar_frontend/general_widgets/text_field_primary_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/category.dart';
+import 'package:recollar_frontend/models/collection.dart';
 import 'package:recollar_frontend/models/collection_request.dart';
 import 'package:recollar_frontend/models/combo_box_item.dart';
 import 'package:recollar_frontend/screens/my_collections/widgets/no_image.dart';
@@ -20,7 +22,8 @@ import 'package:recollar_frontend/state/my_collections_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
 class CollectionForm extends StatefulWidget {
-  const CollectionForm({Key? key}) : super(key: key);
+  final bool edit;
+  const CollectionForm({Key? key,required this.edit}) : super(key: key);
 
   @override
   _CollectionFormState createState() => _CollectionFormState();
@@ -32,20 +35,26 @@ class _CollectionFormState extends State<CollectionForm> {
   List<ComboBoxItem> items=[];
   XFile ?_imagePublication;
   Size sizeP=const Size(1,1);
+  bool firstBuild=false;
   @override
   Widget build(BuildContext context) {
     sizeP=MediaQuery.of(context).size;
     return BlocBuilder<MyCollectionsBloc,MyCollectionsState>(
       builder: (context,state) {
-        if(state is MyCollectionsForm){
-          print(comboBoxItem);
+        if(state is MyCollectionsForm && !firstBuild){
           _chargeCategoriesComboBox(state.category);
+          if(widget.edit){
+              nameController.text=state.collection!.name;
+              comboBoxItem=ComboBoxItem(state.collection!.idCategory, state.category.firstWhere((element) => element.idCategory==state.collection!.idCategory).name);
+             }
+          firstBuild=true;
         }
         if(state is MyCollectionsOk){
           WidgetsBinding.instance!.addPostFrameCallback((_){
           Navigator.pop(context);
           });
         }
+        
         return WillPopScope(
           onWillPop: ()async{
 
@@ -58,14 +67,16 @@ class _CollectionFormState extends State<CollectionForm> {
                 color: color1, //change your color here
               ),
               leadingWidth: 30,
-              title: TextTitleCPNT( colorText: colorWhite, text: "Nueva collección", weight: FontWeight.w600),
+              title: TextTitleCPNT( colorText: colorWhite, text: widget.edit?"Editar colección":"Nueva collección", weight: FontWeight.w600),
               backgroundColor: color2,
               actions: [
                 ButtonPrimaryCPNT(onPressed: (){
+                  if(widget.edit){
+                    _edit(context,state.collection!);
 
-                  print(comboBoxItem);
-                  CollectionRequest collectionRequest= CollectionRequest(null, nameController.text, comboBoxItem.id??1);
-                  context.read<MyCollectionsBloc>().add(MyCollectionsAdd(collectionRequest,_imagePublication??XFile("")));
+                  }else{
+                    _add(context);
+                  }
                 }, size: Size(sizeP.width*0.1,10), colorBg: color2, colorText: color1, text: "aceptar", elevation: 0)
               ],
               elevation: 1,
@@ -89,8 +100,8 @@ class _CollectionFormState extends State<CollectionForm> {
                                   child: ClipRRect(
 
                                     child:
-                                    _imagePublication==null?NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)):
-                                    Image(image:FileImage(File(_imagePublication!.path)),fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,),
+                                    _imagePublication!=null?Image(image:FileImage(File(_imagePublication!.path)),fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):
+                                        widget.edit&&state.collection!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.collection!.image,headers: {"Authorization":"Bearer ${state.collection!.token}"},fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
                                     borderRadius:  BorderRadius.circular(10),
 
                                   ),
@@ -154,5 +165,15 @@ class _CollectionFormState extends State<CollectionForm> {
       list.add(ComboBoxItem(cat.idCategory, cat.name));
     }
     items=list;
+  }
+  _add(context){
+    CollectionRequest collectionRequest= CollectionRequest(1, nameController.text, comboBoxItem.id??1);
+
+    context.read<MyCollectionsBloc>().add(MyCollectionsAdd(collectionRequest,_imagePublication??XFile("")));
+  }
+  _edit(context,Collection collection){
+    CollectionRequest collectionRequest= CollectionRequest(collection.idCollection, nameController.text, comboBoxItem.id??1);
+
+    context.read<MyCollectionsBloc>().add(MyCollectionsUpdate(collectionRequest,_imagePublication));
   }
 }

@@ -9,12 +9,11 @@ class Object{
   int status;
   int objectStatus;
   double price;
+  String token;
 
 
-  Object(this.idObject, this.idCollection, this.name, this.description,
-      this.image, this.status, this.objectStatus, this.price);
 
-  /*Object.fromJson(json,this.token):
+  Object.fromJson(json,this.token):
         idObject=json["idObject"],
         idCollection=json["idCollection"],
         name=json["name"],
@@ -22,5 +21,5 @@ class Object{
         image=json["image"],
         status=json["status"],
         objectStatus=json["objectStatus"],
-        price=json["price"];*/
+        price=json["price"];
 }

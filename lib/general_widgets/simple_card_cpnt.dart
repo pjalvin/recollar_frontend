@@ -53,70 +53,7 @@ class SimpleCardCPNT extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: color2,
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(15))
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                              Icons.delete
-                          ),
-                          iconSize: 30,
-                          color: colorWhite,
-                          onPressed: () {
-                            showDialog(context: context,
-                                builder: (context){
-                                  return AlertDialog(
-                                    title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly
-                                      ,children: [
-                                      TextSubtitleCPNT(colorText: color2, text: "Confirmar eliminación", weight: FontWeight.w700),
-                                      Icon(
-                                        Icons.announcement,
-                                        color: errorcolor,
-                                        size: 25,
-                                      ),
-                                    ],
-                                    ),
-                                    content: TextParagraphCPNT(onPressed: (){}, colorText: color2, text: "¿Desea eliminar esta colección?"),
-                                    actions: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          FlatButton(
-                                            onPressed: () => Navigator.pop(context),
-                                            child: Text("Cancelar",
-                                              style: TextStyle(
-                                                color: colorWhite,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                            color: color2,
-                                          ),
-                                          FlatButton(
-                                            onPressed: (){},
-                                            child: Text("Eliminar",
-                                              style: TextStyle(
-                                                color: colorWhite,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                            color: errorcolor,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  );
-                                });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+
                   Container(
                       height: size.height*0.4,
                       width: size.width,

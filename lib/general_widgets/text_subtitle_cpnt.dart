@@ -6,13 +6,14 @@ class TextSubtitleCPNT extends StatelessWidget {
   Color ? colorText;
   String text;
   FontWeight weight;
-  TextSubtitleCPNT({Key? key,this.onPressed,required this.colorText,required this.text,required this.weight}) : super(key: key);
+  int ? maxlines;
+  TextSubtitleCPNT({Key? key,this.onPressed,required this.colorText,required this.text,required this.weight,this.maxlines}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
       onTap: onPressed,
-      child: Text(text,style: TextStyle(color: colorText,fontSize: 17,fontWeight: weight,),overflow: TextOverflow.ellipsis,maxLines: 2,),
+      child: Text(text,style: TextStyle(color: colorText,fontSize: 17,fontWeight: weight,),overflow: TextOverflow.ellipsis,maxLines: maxlines,),
 
     );
   }

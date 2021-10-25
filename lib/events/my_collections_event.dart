@@ -22,3 +22,14 @@ class MyCollectionsAdd extends MyCollectionsEvent{
   final XFile imageFile;
   MyCollectionsAdd(this.collectionRequest,this.imageFile);
 }
+
+class MyCollectionsUpdate extends MyCollectionsEvent{
+  final CollectionRequest collectionRequest;
+  final XFile ? imageFile;
+  MyCollectionsUpdate(this.collectionRequest,this.imageFile);
+}
+
+class MyCollectionsChangeTools extends MyCollectionsEvent{
+  final int index;
+  MyCollectionsChangeTools(this.index);
+}

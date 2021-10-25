@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:provider/src/provider.dart';
+import 'package:recollar_frontend/bloc/my_objects_bloc.dart';
+import 'package:recollar_frontend/events/my_objects_event.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
-import 'dialog_card.dart';
+import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
+import 'package:recollar_frontend/models/object_simple.dart';
+import 'package:recollar_frontend/repositories/my_objects_repository.dart';
+import 'package:recollar_frontend/state/my_objects_state.dart';
+import 'widgets/dialog_card.dart';
 import 'package:recollar_frontend/general_widgets/object_card.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
@@ -23,97 +30,189 @@ class _MyObjectsState extends State<MyObjects>{
   @override
   Widget build(BuildContext context){
     sizeP=MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: colorGray,
-        body: Stack(
-          children: [
-            Container(
-              color: color2,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 110),
-              height: sizeP.height-110,
-              decoration: BoxDecoration(
-                borderRadius:  BorderRadius.only(topLeft: Radius.circular(sizeP.width*0.05),topRight: Radius.circular(sizeP.width*0.05)),
-                color: colorGray,
-              ),
-              child: Stack(
+    return BlocProvider(
+        create: (context)=>MyObjectsBloc(MyObjectsRepository())..add(MyObjectsSetCollection(widget.col.idCollection))..add(MyObjectsInit()),
+        child: BlocBuilder<MyObjectsBloc,MyObjectsState>(
+          builder: (context,state) {
+            return Scaffold(
+              backgroundColor: colorGray,
+              body: Stack(
                 children: [
-                  Center(
-                      child: Opacity(
-                        opacity: 0.1,
-                        child: Image.asset("assets/square_logo_black.png",width: sizeP.width*0.6,height: 100,),
-                      )
+                  Container(
+                    color: color2,
                   ),
-                  ClipRRect(
-                    borderRadius:  BorderRadius.only(topLeft: Radius.circular(sizeP.width*0.05),topRight: Radius.circular(sizeP.width*0.05)),
-                    child: StaggeredGridView.extent(
-
-                      controller:_scrollController,
-                      shrinkWrap: true,
-
-                      scrollDirection: Axis.vertical,
-
-                      padding:EdgeInsets.only(left: 10 ,right: 10,top: 10,bottom: 50+sizeP.height*0.02),
-
-                      children: getList([Object(1, 1, "Moneda 10 ctvs", "moneda de 10 centavos", "https://i.colnect.net/f/5762/924/10-Centavos-back.jpg", 1, 9, 0/*, token*/)]),
-                      staggeredTiles: getListTile([Object(1, 1, "Moneda 10 ctvs", "moneda de 10 centavos", "https://i.colnect.net/f/5762/924/10-Centavos-back.jpg", 1, 9, 0/*, token*/)]),
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      maxCrossAxisExtent: sizeP.width*0.5,
+                  Container(
+                    margin: const EdgeInsets.only(top: 110),
+                    height: sizeP.height-110,
+                    decoration: BoxDecoration(
+                      borderRadius:  BorderRadius.only(topLeft: Radius.circular(sizeP.width*0.05),topRight: Radius.circular(sizeP.width*0.05)),
+                      color: colorGray,
                     ),
-                  )
+                    child: Stack(
+                      children: [
+                        Center(
+                            child: Opacity(
+                              opacity: 0.1,
+                              child: Image.asset("assets/square_logo_black.png",width: sizeP.width*0.6,height: 100,),
+                            )
+                        ),
+                        ClipRRect(
+                          borderRadius:  BorderRadius.only(topLeft: Radius.circular(sizeP.width*0.05),topRight: Radius.circular(sizeP.width*0.05)),
+                          child: StaggeredGridView.extent(
+
+                            controller:_scrollController,
+                            shrinkWrap: true,
+
+                            scrollDirection: Axis.vertical,
+
+                            padding:EdgeInsets.only(left: 10 ,right: 10,top: 10,bottom: 50+sizeP.height*0.02),
+
+                            children: getList(
+                              state.objects,context
+                            ),
+                            staggeredTiles: getListTile(
+                              state.objects
+                            ),
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            maxCrossAxisExtent: sizeP.width*0.5,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 110,
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,left: sizeP.width*0.01,right: sizeP.width*0.05),
+                    width: sizeP.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                ButtonIconCPNT.icon(onPressed: (){
+                                  Navigator.pop(context);
+                                }, size: const Size(30,20),icon: Icons.arrow_back,color: colorWhite),
+                                TextTitleCPNT(onPressed: (){}, colorText: colorWhite, text: widget.col.name,weight: FontWeight.w600,),
+                              ],
+                            ),
+                            ButtonIconCPNT.icon(onPressed: (){
+                            },
+                            size: const Size(40,20),
+                            icon: Icons.add_circle_outlined,
+                            color: color1
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ],
-              ),
-            ),
-            Container(
-              height: 110,
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,left: sizeP.width*0.05,right: sizeP.width*0.05),
-              width: sizeP.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          ButtonIconCPNT.icon(onPressed: (){}, size: const Size(30,20),icon: Icons.import_contacts,color: colorWhite),
-                          TextTitleCPNT(onPressed: (){}, colorText: colorWhite, text: widget.col.name,weight: FontWeight.w600,),
-                        ],
-                      ),
-                      ButtonIconCPNT.icon(onPressed: (){
-                      },
-                      size: const Size(40,20),
-                      icon: Icons.add_circle_outlined,
-                      color: color1
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
-        )
+              )
+      );
+          }
+        ),
     );
   }
 
-  List<Widget> getList(List<Object> objectList){
+  List<Widget> getList(List<ObjectSimple> objectList,BuildContext context){
     print(objectList);
     List<Widget> list=[];
-    var height=150.0;
+    var height=250.0;
     for(var i=0;i<objectList.length;i++){
       var obj=objectList[i];
-      print(obj.image);
-      list.add(ObjectCard(onPressed: (){
-        showDialog(context: context, builder: (context) => DialogCard(obj));
+      list.add(GestureDetector(
+        onLongPress: (){
+          context.read<MyObjectsBloc>().add(MyObjectsChangeTools(i));
+        },
+        onTap: (){
+          context.read<MyObjectsBloc>().add(MyObjectsGetObject(obj.idObject));
+          showDialog(context: context, builder: (_) => BlocProvider.value(value: BlocProvider.of<MyObjectsBloc>(context),child: DialogCard(),),
+              barrierDismissible: true);
+        },
+        child:
+        Stack(
+            children: [
+              ObjectCard(onPressed: (){
       },
         borderColor: color2.withOpacity(0.5),
         textColor: colorWhite,
-        size: Size(sizeP.width, sizeP.height*0.3),
+        size: Size(sizeP.width, height),
         text: obj.name,
         image: obj.image,
-        /*imagePath: imagePath*/));
+        token: obj.token,
+        /*imagePath: imagePath*/),
+              AnimatedOpacity(opacity: obj.tools?0.8:0, duration: const Duration(milliseconds: 400),
+                  child: Container(
+                    width: sizeP.width*0.5,
+                    height: height,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: colorWhite
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}:(){}, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.edit, color: color2),
+                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}: (){
+                          showDialog(context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly
+                                    ,children: [
+                                    TextSubtitleCPNT(colorText: color2, text: "Confirmar eliminación", weight: FontWeight.w700),
+                                    Icon(
+                                      Icons.announcement,
+                                      color: errorcolor,
+                                      size: 25,
+                                    ),
+                                  ],
+                                  ),
+                                  content: TextParagraphCPNT(onPressed: (){}, colorText: color2, text: "¿Desea eliminar esta colección?"),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        FlatButton(
+                                          onPressed: () => Navigator.pop(context),
+                                          child: Text("Cancelar",
+                                            style: TextStyle(
+                                              color: colorWhite,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          color: color2,
+                                        ),
+                                        FlatButton(
+                                          onPressed: (){},
+                                          child: Text("Eliminar",
+                                            style: TextStyle(
+                                              color: colorWhite,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          color: errorcolor,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                );
+                              });
+                        }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.delete, color: color2),
+                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}:(){
+                          context.read<MyObjectsBloc>().add(MyObjectsChangeTools(i));
+                        }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.keyboard_backspace, color: color2),
+                      ],
+                    ),
+                  ))
+          ]
+        )
+      )
+      );
     }
     return list;
   }

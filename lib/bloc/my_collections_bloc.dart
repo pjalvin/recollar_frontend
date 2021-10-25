@@ -29,6 +29,18 @@ class MyCollectionsBloc extends Bloc<MyCollectionsEvent,MyCollectionsState>{
       yield MyCollectionsOk(_myCollectionsRepository.collections);
 
     }
+    if(event is MyCollectionsUpdate){
+      yield MyCollectionsLoadingForm();
+      await _myCollectionsRepository.updateCollection(event.collectionRequest,event.imageFile);
+      await _myCollectionsRepository.getCollections(init: true);
+      yield MyCollectionsOk(_myCollectionsRepository.collections);
+
+    }
+    if(event is MyCollectionsChangeTools){
+      yield MyCollectionsLoading();
+      _myCollectionsRepository.collections[event.index].tools=!_myCollectionsRepository.collections[event.index].tools;
+      yield MyCollectionsOk(_myCollectionsRepository.collections);
+    }
   }
 
 }

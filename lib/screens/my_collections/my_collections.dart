@@ -7,6 +7,8 @@ import 'package:recollar_frontend/bloc/my_collections_bloc.dart';
 import 'package:recollar_frontend/events/my_collections_event.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/simple_card_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
 import 'package:recollar_frontend/repositories/my_collections_repository.dart';
@@ -66,7 +68,7 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
 
                           padding:EdgeInsets.only(left: 10 ,right: 10,top: 10,bottom: 50+sizeP.height*0.02),
 
-                          children: getList(state.collections),
+                          children: getList(state.collections,context),
                           staggeredTiles: getListTile(state.collections),
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
@@ -112,27 +114,107 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
     );
   }
 
-  List<Widget> getList(List<Collection> collectionList){
+  List<Widget> getList(List<Collection> collectionList,BuildContext context){
     print(collectionList);
     List<Widget> list=[];
     var height=150.0;
     for(var i=0;i<collectionList.length;i++){
       var col=collectionList[i];
       print(col.image);
-      list.add(SimpleCardCPNT(color: color2,
-        borderColor: color2.withOpacity(0.5),
-        text: col.name,
-        text2: "Artículos: ${col.amount}",
-        firstColor: maskcolor1,
-        secondColor: maskcolor2,
-        textColor: color2,
-        size: Size(sizeP.width, height),
-        image: col.image,
-        token:col.token,
-        imagePath: "imageCollection",
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> MyObjects(col)));
+      list.add(GestureDetector(
+        onLongPress: (){
+          context.read<MyCollectionsBloc>().add(MyCollectionsChangeTools(i));
         },
+          onTap: (){
+
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> MyObjects(col)));
+          },
+        child:
+            Stack(
+              children: [
+                SimpleCardCPNT(color: color2,
+                  borderColor: color2.withOpacity(0.5),
+                  text: col.name,
+                  text2: "Artículos: ${col.amount}",
+                  firstColor: maskcolor1,
+                  secondColor: maskcolor2,
+                  textColor: color2,
+                  size: Size(sizeP.width*0.5, height),
+                  image: col.image,
+                  token:col.token,
+                  imagePath: "imageCollection",
+                  onPressed: (){
+                  },
+                ),
+                AnimatedOpacity(opacity: col.tools?0.8:0, duration: const Duration(milliseconds: 400),
+                    child: Container(
+                      width: sizeP.width*0.5,
+                      height: height,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: colorWhite
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ButtonIconCPNT.icon(onPressed: !col.tools?(){}:(){
+
+                            editCollection(context,col);
+                          }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.edit, color: color2),
+                          ButtonIconCPNT.icon(onPressed: !col.tools?(){}: (){
+                            showDialog(context: context,
+                                builder: (context){
+                                  return AlertDialog(
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly
+                                      ,children: [
+                                      TextSubtitleCPNT(colorText: color2, text: "Confirmar eliminación", weight: FontWeight.w700),
+                                      Icon(
+                                        Icons.announcement,
+                                        color: errorcolor,
+                                        size: 25,
+                                      ),
+                                    ],
+                                    ),
+                                    content: TextParagraphCPNT(onPressed: (){}, colorText: color2, text: "¿Desea eliminar esta colección?"),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          FlatButton(
+                                            onPressed: () => Navigator.pop(context),
+                                            child: Text("Cancelar",
+                                              style: TextStyle(
+                                                color: colorWhite,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            color: color2,
+                                          ),
+                                          FlatButton(
+                                            onPressed: (){},
+                                            child: Text("Eliminar",
+                                              style: TextStyle(
+                                                color: colorWhite,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            color: errorcolor,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  );
+                                });
+                          }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.delete, color: color2),
+                          ButtonIconCPNT.icon(onPressed: !col.tools?(){}:(){
+                            context.read<MyCollectionsBloc>().add(MyCollectionsChangeTools(i));
+                          }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.arrow_back, color: color2),
+                        ],
+                      ),
+                    ))
+              ],
+            )
       ));
     }
     return list;
@@ -156,8 +238,16 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
     Navigator.push(context, MaterialPageRoute(builder: (_)=>
     BlocProvider.value(
       value: BlocProvider.of<MyCollectionsBloc>(context),
-      child: const CollectionForm(),
+      child: const CollectionForm(edit:false),
     )));
+  }
+  void editCollection(BuildContext context,Collection collection){
+    context.read<MyCollectionsBloc>().add(MyCollectionsInitForm(collection));
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>
+        BlocProvider.value(
+          value: BlocProvider.of<MyCollectionsBloc>(context),
+          child: const CollectionForm(edit: true),
+        )));
   }
 
   @override

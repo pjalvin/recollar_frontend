@@ -34,7 +34,7 @@ class MyCollectionsRepository{
       print(res.body);
       print(res.request!.url);
       print(token);
-      throw "No se pudo obtener el perfil del usuario";
+      throw "No se pudo obtener las colecciones";
     }
     else{
       if(init){
@@ -69,6 +69,32 @@ class MyCollectionsRepository{
       print(res.body);
       var body=jsonDecode(res.body);
       await uploadImages(imageFile, body["idCollection"]);
+    }
+  }
+  updateCollection(CollectionRequest collectionRequest,XFile ? imageFile)async{
+
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    String ?token= prefs.getString("token");
+    if(token==null){
+      throw "No existe token Almacenado";
+    }
+    var res=await http.put(
+        Uri.http(dotenv.env['API_URL'] ?? "", "/collection"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: jsonEncode(collectionRequest.toJson())
+    );
+    if(res.statusCode!=200){
+      throw "No se pudo agregar la coleccion";
+    }
+    else{
+      print(res.body);
+      var body=jsonDecode(res.body);
+      if(imageFile!=null){
+        await uploadImages(imageFile, body["idCollection"]);
+      }
     }
   }
   Future<void> getCategories()async{

@@ -12,12 +12,14 @@ class ButtonPrimaryCPNT extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialButton(
+      padding: const EdgeInsets.all(0),
       elevation: elevation,
           height: size.height,
           minWidth:size.width,
           onPressed: onPressed,
           color: colorBg,
           disabledColor: colorBg,
+
           child: Center(
             child: Text(text,style: TextStyle(color: colorText,fontSize: 18,fontWeight: FontWeight.w600),),
           ),

@@ -15,12 +15,11 @@ class ObjectCard extends StatelessWidget {
   Size size;
   String text;
   String image;
-  /*String token;
-  String imagePath;*/
+  String token;
 
 
   ObjectCard({Key? key,required this.onPressed, required this.borderColor,required this.textColor,
-     required this.size,required this.text,required this.image/*,required this.token,required this.imagePath*/});
+     required this.size,required this.text,required this.image,required this.token/*,required this.imagePath*/}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +29,8 @@ class ObjectCard extends StatelessWidget {
             color: colorWhite,
             borderRadius: BorderRadius.circular( size.width*0.05),
             image:DecorationImage(
-                image: NetworkImage(/*"http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+*/image,/*headers: {"Authorization":"Bearer $token"}*/),
-                fit: BoxFit.contain,
+                image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"}),
+                fit: BoxFit.cover,
             ),
           ),
           width: size.width,
@@ -48,20 +47,13 @@ class ObjectCard extends StatelessWidget {
                     borderRadius: BorderRadius.only(bottomLeft: Radius.circular(size.width*0.05) ,bottomRight: Radius.circular(size.width*0.05)),
                     //#D4D4D5
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 8),
-                            child: TextSubtitleCPNT(text: text,colorText: textColor,weight: FontWeight.w400),
-                          )
-                        ],
-                      ),
-                    ],
+                  child: Center(
+                    child: SizedBox(
+                              width: size.width,
+                              child: TextSubtitleCPNT(text: text,colorText: textColor,weight: FontWeight.w400,maxlines: 2,),
+                            ),
                   )
-              ),
+                  )
 
             ],
           ),

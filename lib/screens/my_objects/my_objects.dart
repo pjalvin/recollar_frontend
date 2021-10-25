@@ -17,6 +17,7 @@ import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
+
 class MyObjects extends StatefulWidget{
   Collection col;
   MyObjects (this.col);

@@ -9,12 +9,12 @@ import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/models/object_simple.dart';
 import 'package:recollar_frontend/repositories/my_objects_repository.dart';
+import 'package:recollar_frontend/screens/my_objects/object_form.dart';
 import 'package:recollar_frontend/state/my_objects_state.dart';
 import 'widgets/dialog_card.dart';
 import 'package:recollar_frontend/general_widgets/object_card.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/collection.dart';
-import 'package:recollar_frontend/models/object.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
 class MyObjects extends StatefulWidget{
@@ -100,6 +100,7 @@ class _MyObjectsState extends State<MyObjects>{
                               ],
                             ),
                             ButtonIconCPNT.icon(onPressed: (){
+                              addObject(context);
                             },
                             size: const Size(40,20),
                             icon: Icons.add_circle_outlined,
@@ -230,6 +231,14 @@ class _MyObjectsState extends State<MyObjects>{
       }
     }
     return list;
+  }
+  void addObject(BuildContext context){
+    context.read<MyObjectsBloc>().add(MyObjectsInitForm(null));
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>
+        BlocProvider.value(
+          value: BlocProvider.of<MyObjectsBloc>(context),
+          child: const ObjectForm(edit:false),
+        )));
   }
 
   

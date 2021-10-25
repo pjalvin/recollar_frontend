@@ -12,7 +12,6 @@ class Object{
   String token;
 
 
-
   Object.fromJson(json,this.token):
         idObject=json["idObject"],
         idCollection=json["idCollection"],

@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:recollar_frontend/models/object.dart';
+import 'package:recollar_frontend/models/object_request.dart';
 
 
 abstract class MyObjectsEvent extends Equatable{
@@ -21,13 +24,17 @@ class MyObjectsChangeTools extends MyObjectsEvent{
   final int index;
   MyObjectsChangeTools(this.index);
 }
-/*class MyCollectionsInitForm extends MyCollectionsEvent{
-  final Collection ? collection;
-  MyCollectionsInitForm(this.collection);
-}*/
-/*
-class MyCollectionsAdd extends MyCollectionsEvent{
-  final CollectionRequest collectionRequest;
+class MyObjectsInitForm extends MyObjectsEvent{
+  final Object ? object;
+  MyObjectsInitForm(this.object);
+}
+class MyObjectsAdd extends MyObjectsEvent{
+  final ObjectRequest objectRequest;
   final XFile imageFile;
-  MyCollectionsAdd(this.collectionRequest,this.imageFile);
-}*/
+  MyObjectsAdd(this.objectRequest,this.imageFile);
+}
+class MyObjectsUpdate extends MyObjectsEvent{
+  final Object object;
+  final XFile imageFile;
+  MyObjectsUpdate(this.object, this.imageFile);
+}

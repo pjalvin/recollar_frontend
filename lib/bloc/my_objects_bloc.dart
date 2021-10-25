@@ -24,6 +24,20 @@ class MyObjectsBloc extends Bloc<MyObjectsEvent,MyObjectsState>{
       await _myObjectsRepository.getObjectById(event.idObject);
       yield MyObjectsGetObjectOk(_myObjectsRepository.object);
     }
+    if(event is MyObjectsAdd){
+      yield MyObjectsFormLoading();
+      //await _myObjectsRepository(event.collectionRequest,event.imageFile);
+      //await _myCollectionsRepository.getCollections(init: true);
+      //yield MyCollectionsOk(_myCollectionsRepository.collections);
+
+    }
+    if(event is MyObjectsUpdate){
+      yield MyObjectsFormLoading();
+      //await _myCollectionsRepository.updateCollection(event.collectionRequest,event.imageFile);
+      //await _myCollectionsRepository.getCollections(init: true);
+      //yield MyCollectionsOk(_myCollectionsRepository.collections);
+
+    }
     if(event is MyObjectsChangeTools){
       yield MyObjectsLoading();
       _myObjectsRepository.objects[event.index].tools=!_myObjectsRepository.objects[event.index].tools;

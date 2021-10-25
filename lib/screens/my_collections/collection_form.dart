@@ -166,12 +166,12 @@ class _CollectionFormState extends State<CollectionForm> {
     }
     items=list;
   }
-  _add(context){
+  _add(BuildContext context){
     CollectionRequest collectionRequest= CollectionRequest(1, nameController.text, comboBoxItem.id??1);
 
     context.read<MyCollectionsBloc>().add(MyCollectionsAdd(collectionRequest,_imagePublication??XFile("")));
   }
-  _edit(context,Collection collection){
+  _edit(BuildContext context,Collection collection){
     CollectionRequest collectionRequest= CollectionRequest(collection.idCollection, nameController.text, comboBoxItem.id??1);
 
     context.read<MyCollectionsBloc>().add(MyCollectionsUpdate(collectionRequest,_imagePublication));

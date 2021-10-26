@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +15,14 @@ import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/object_request.dart';
 import 'package:recollar_frontend/state/my_objects_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
-
-
 import 'package:recollar_frontend/models/object.dart';
 import 'package:recollar_frontend/screens/my_collections/widgets/no_image.dart';
 
 class ObjectForm extends StatefulWidget{
+  final bool edit;
+  ObjectForm(this.edit){
+    print("algo");
+  }
   @override
   _ObjectFormState createState() => _ObjectFormState();
 }
@@ -30,19 +32,23 @@ class _ObjectFormState extends State<ObjectForm>{
   TextEditingController descriptionController=TextEditingController();
   TextEditingController priceController=TextEditingController();
 
-  int idCollection = 0;
-  String image = "abc";
-  int status = 0;
-  int objectStatus = 1;
-
   XFile ?_imagePublication;
   Size sizeP=const Size(1,1);
-  bool firstBuild=false;
+  bool firstBuild=true;
 
-  @override  Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     sizeP=MediaQuery.of(context).size;
     return BlocBuilder<MyObjectsBloc,MyObjectsState>(
         builder: (context,state) {
+          if(state is MyObjectsGetObjectOk){
+            if(state.object!=null && firstBuild){
+              nameController.text=state.object!.name;
+              descriptionController.text=state.object!.description;
+              priceController.text=state.object!.price.toString();
+              firstBuild=false;
+            }
+          }
           if(state is MyObjectsOk){
             WidgetsBinding.instance!.addPostFrameCallback((_){
               Navigator.pop(context);
@@ -51,7 +57,6 @@ class _ObjectFormState extends State<ObjectForm>{
 
           return WillPopScope(
             onWillPop: ()async{
-
               context.read<MyObjectsBloc>().add(MyObjectsInit());
               return false;
             },
@@ -61,7 +66,7 @@ class _ObjectFormState extends State<ObjectForm>{
                   color: color1, //change your color here
                 ),
                 leadingWidth: 30,
-                title: TextTitleCPNT( colorText: colorWhite, text: widget.edit?"Editar colección":"Nueva collección", weight: FontWeight.w600),
+                title: TextTitleCPNT( colorText: colorWhite, text: widget.edit?"Editar objeto":"Nuevo objeto", weight: FontWeight.w600),
                 backgroundColor: color2,
                 actions: [
                   ButtonPrimaryCPNT(onPressed: (){
@@ -168,17 +173,16 @@ class _ObjectFormState extends State<ObjectForm>{
   }
 
   _add(BuildContext context){
-    int idObject = 1;
-    int idCollection = 1;
     int objectStatus = 1;
 
-    ObjectRequest objectRequest = ObjectRequest(idObject,idCollection,nameController.text,descriptionController.text,objectStatus,double.parse(priceController.text));
+    ObjectRequest objectRequest = ObjectRequest(null,null,nameController.text,descriptionController.text,objectStatus,double.parse(priceController.text));
 
     context.read<MyObjectsBloc>().add(MyObjectsAdd(objectRequest,_imagePublication??XFile("")));
   }
   _edit(BuildContext context,Object object){
+    int objectStatus = 1;
     ObjectRequest objectRequest = ObjectRequest(object.idObject,object.idCollection,nameController.text,descriptionController.text,objectStatus,double.parse(priceController.text));
 
-    context.read<MyObjectsBloc>().add(MyObjectsUpdate(object,_imagePublication??XFile("")));
+    context.read<MyObjectsBloc>().add(MyObjectsUpdate(objectRequest,_imagePublication));
   }
 }

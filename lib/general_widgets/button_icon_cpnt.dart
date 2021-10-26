@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ButtonIconCPNT extends StatelessWidget {
   ImageProvider  ?image;
   IconData ?icon;
-  VoidCallback  onPressed;
+  VoidCallback  ? onPressed;
   Size size;
   Color ?color;
   ButtonIconCPNT.image({Key? key,required this.image,required this.onPressed, required this.size}) : super(key: key);

@@ -25,8 +25,7 @@ class MyObjectsChangeTools extends MyObjectsEvent{
   MyObjectsChangeTools(this.index);
 }
 class MyObjectsInitForm extends MyObjectsEvent{
-  final Object ? object;
-  MyObjectsInitForm(this.object);
+  MyObjectsInitForm();
 }
 class MyObjectsAdd extends MyObjectsEvent{
   final ObjectRequest objectRequest;
@@ -34,7 +33,16 @@ class MyObjectsAdd extends MyObjectsEvent{
   MyObjectsAdd(this.objectRequest,this.imageFile);
 }
 class MyObjectsUpdate extends MyObjectsEvent{
-  final Object object;
-  final XFile imageFile;
+  final ObjectRequest object;
+  final XFile ?imageFile;
   MyObjectsUpdate(this.object, this.imageFile);
+}
+class MyObjectsDelete extends MyObjectsEvent{
+  final int idObject;
+  MyObjectsDelete(this.idObject);
+}
+class MyObjectsChangeStatus extends MyObjectsEvent{
+  final int idObject;
+  final int objectStatus;
+  MyObjectsChangeStatus(this.idObject,this.objectStatus);
 }

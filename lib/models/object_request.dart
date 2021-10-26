@@ -1,6 +1,6 @@
 class ObjectRequest{
   int ? idObject;
-  int idCollection;
+  int ? idCollection;
   String name;
   String description;
   int objectStatus;
@@ -16,6 +16,6 @@ class ObjectRequest{
     "name": name,
     "description": description,
     "objectStatus": objectStatus,
-    "price": 50
+    "price": price
   };
 }

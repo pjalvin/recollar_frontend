@@ -1,24 +1,28 @@
 import 'package:equatable/equatable.dart';
+import 'package:recollar_frontend/models/object.dart';
 
 abstract class SearchState extends Equatable{
-
-  const SearchState();
+  final List<Object> objects;
+  const SearchState(this.objects);
   @override
   List<Object> get props =>[];
 
 }
 class SearchInitial extends SearchState{
-
+  SearchInitial() : super([]);
 }
 class SearchPredict extends SearchState{
   final List<String> wordList;
-  const SearchPredict(this.wordList) : super();
+  SearchPredict(this.wordList) : super([]);
 }
 class SearchPredictLoading extends SearchState{
-  const SearchPredictLoading() : super();
+  SearchPredictLoading() : super([]);
 
 }
 class SearchLoading extends SearchState{
-  const SearchLoading() : super();
+  SearchLoading() : super([]);
 
+}
+class SearchOk extends SearchState{
+  const SearchOk(List<Object> objects):super(objects);
 }

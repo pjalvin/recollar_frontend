@@ -36,6 +36,13 @@ class MyCollectionsBloc extends Bloc<MyCollectionsEvent,MyCollectionsState>{
       yield MyCollectionsOk(_myCollectionsRepository.collections);
 
     }
+    if(event is MyCollectionsDelete){
+      yield MyCollectionsLoadingForm();
+      await _myCollectionsRepository.deleteCollection(event.idCollection);
+      await _myCollectionsRepository.getCollections(init: true);
+      yield MyCollectionsOk(_myCollectionsRepository.collections);
+
+    }
     if(event is MyCollectionsChangeTools){
       yield MyCollectionsLoading();
       _myCollectionsRepository.collections[event.index].tools=!_myCollectionsRepository.collections[event.index].tools;

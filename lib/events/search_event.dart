@@ -10,3 +10,7 @@ class SearchInitPredict extends SearchEvent{
   final String key;
   SearchInitPredict(this.key);
 }
+
+class SearchInit extends SearchEvent{
+  SearchInit();
+}

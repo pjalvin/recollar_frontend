@@ -7,9 +7,10 @@ import 'package:recollar_frontend/events/my_objects_event.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
+import 'package:recollar_frontend/models/object.dart';
 import 'package:recollar_frontend/models/object_simple.dart';
 import 'package:recollar_frontend/repositories/my_objects_repository.dart';
-import 'package:recollar_frontend/screens/my_objects/object_form.dart';
+import 'package:recollar_frontend/screens/my_objects/widgets/object_form.dart';
 import 'package:recollar_frontend/state/my_objects_state.dart';
 import 'widgets/dialog_card.dart';
 import 'package:recollar_frontend/general_widgets/object_card.dart';
@@ -101,6 +102,7 @@ class _MyObjectsState extends State<MyObjects>{
                               ],
                             ),
                             ButtonIconCPNT.icon(onPressed: (){
+                              print("as");
                               addObject(context);
                             },
                             size: const Size(40,20),
@@ -158,9 +160,11 @@ class _MyObjectsState extends State<MyObjects>{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}:(){}, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.edit, color: color2),
-                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}: (){
-                          showDialog(context: context,
+                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}:(){
+                          _editObject(context, obj);
+                        }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.edit, color: color2),
+                        ButtonIconCPNT.icon(onPressed: !obj.tools?(){}: ()async{
+                          var result=await showDialog(context: context,
                               builder: (context){
                                 return AlertDialog(
                                   title: Row(
@@ -180,7 +184,7 @@ class _MyObjectsState extends State<MyObjects>{
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         FlatButton(
-                                          onPressed: () => Navigator.pop(context),
+                                          onPressed: () => Navigator.pop(context,false),
                                           child: Text("Cancelar",
                                             style: TextStyle(
                                               color: colorWhite,
@@ -190,7 +194,7 @@ class _MyObjectsState extends State<MyObjects>{
                                           color: color2,
                                         ),
                                         FlatButton(
-                                          onPressed: (){},
+                                          onPressed: (){Navigator.pop(context,true);},
                                           child: Text("Eliminar",
                                             style: TextStyle(
                                               color: colorWhite,
@@ -204,6 +208,10 @@ class _MyObjectsState extends State<MyObjects>{
                                   ],
                                 );
                               });
+                          if(result==true){
+
+                            context.read<MyObjectsBloc>().add(MyObjectsDelete(obj.idObject));
+                          }
                         }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.delete, color: color2),
                         ButtonIconCPNT.icon(onPressed: !obj.tools?(){}:(){
                           context.read<MyObjectsBloc>().add(MyObjectsChangeTools(i));
@@ -234,12 +242,28 @@ class _MyObjectsState extends State<MyObjects>{
     return list;
   }
   void addObject(BuildContext context){
-    context.read<MyObjectsBloc>().add(MyObjectsInitForm(null));
+    print("asdf");
+    context.read<MyObjectsBloc>().add(MyObjectsInitForm());
+    print("asdf");
     Navigator.push(context, MaterialPageRoute(builder: (_)=>
         BlocProvider.value(
           value: BlocProvider.of<MyObjectsBloc>(context),
-          child: const ObjectForm(edit:false),
+          child: ObjectForm(false),
         )));
+
+    print("asdf3");
+  }
+  void _editObject(BuildContext context,ObjectSimple obj){
+    print("asdf");
+    context.read<MyObjectsBloc>().add(MyObjectsGetObject(obj.idObject));
+    print("asdf");
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>
+        BlocProvider.value(
+          value: BlocProvider.of<MyObjectsBloc>(context),
+          child: ObjectForm(true),
+        )));
+
+    print("asdf3");
   }
 
   

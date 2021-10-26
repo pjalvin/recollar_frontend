@@ -26,22 +26,39 @@ class MyObjectsBloc extends Bloc<MyObjectsEvent,MyObjectsState>{
     }
     if(event is MyObjectsAdd){
       yield MyObjectsFormLoading();
-      //await _myObjectsRepository(event.collectionRequest,event.imageFile);
-      //await _myCollectionsRepository.getCollections(init: true);
-      //yield MyCollectionsOk(_myCollectionsRepository.collections);
+      await _myObjectsRepository.addObject(event.objectRequest,event.imageFile);
+      await _myObjectsRepository.getObjects(true);
+      yield MyObjectsOk(_myObjectsRepository.objects);
 
     }
     if(event is MyObjectsUpdate){
       yield MyObjectsFormLoading();
-      //await _myCollectionsRepository.updateCollection(event.collectionRequest,event.imageFile);
-      //await _myCollectionsRepository.getCollections(init: true);
-      //yield MyCollectionsOk(_myCollectionsRepository.collections);
+      await _myObjectsRepository.updateObject(event.object,event.imageFile);
+      await _myObjectsRepository.getObjects(true);
+      yield MyObjectsOk(_myObjectsRepository.objects);
 
+    }
+    if(event is MyObjectsDelete){
+      yield MyObjectsFormLoading();
+      await _myObjectsRepository.deleteObject(event.idObject);
+      await _myObjectsRepository.getObjects(true);
+      yield MyObjectsOk(_myObjectsRepository.objects);
+
+    }
+    if(event is MyObjectsChangeStatus){
+      yield MyObjectsFormLoading();
+      await _myObjectsRepository.changeStatus(event.idObject,event.objectStatus);
+      await _myObjectsRepository.getObjects(true);
+      yield MyObjectsOk(_myObjectsRepository.objects);
     }
     if(event is MyObjectsChangeTools){
       yield MyObjectsLoading();
       _myObjectsRepository.objects[event.index].tools=!_myObjectsRepository.objects[event.index].tools;
       yield MyObjectsOk(_myObjectsRepository.objects);
+    }
+    if(event is MyObjectsInitForm){
+      _myObjectsRepository.object=null;
+      yield MyObjectsGetObjectOk(_myObjectsRepository.object);
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recollar_frontend/bloc/my_objects_bloc.dart';
 import 'package:recollar_frontend/events/my_objects_event.dart';
 import 'package:recollar_frontend/general_widgets/loading_cpnt.dart';
@@ -25,7 +26,7 @@ class DialogCard extends StatelessWidget{
           borderRadius: BorderRadius.circular(16)
         ),
         elevation: 0,
-        backgroundColor: colorWhite,
+        backgroundColor: Colors.transparent,
         child: dialogContent(context),
 
       ),
@@ -101,6 +102,8 @@ class DialogCard extends StatelessWidget{
                         // ignore: deprecated_member_use
                         FlatButton(
                           onPressed: (){
+                            context.read<MyObjectsBloc>().add(MyObjectsChangeStatus(state.object!.idObject, 2));
+                            Navigator.pop(context);
                           },
                           child: Text("Intercambiar",
                             style: TextStyle(
@@ -113,6 +116,8 @@ class DialogCard extends StatelessWidget{
                         // ignore: deprecated_member_use
                         FlatButton(
                           onPressed: (){
+                            context.read<MyObjectsBloc>().add(MyObjectsChangeStatus(state.object!.idObject, 3));
+                            Navigator.pop(context);
                           },
                           child: Text("Vender",
                             style: TextStyle(
@@ -146,7 +151,10 @@ class DialogCard extends StatelessWidget{
           );
         }
         else{
-          return LoadingCPNT(size: const Size(100,100));
+          return SpinKitFadingCube(
+              color: Colors.white,
+              size: 30
+          );
         }
       }
     );

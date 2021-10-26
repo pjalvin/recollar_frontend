@@ -11,4 +11,5 @@ ObjectSimple.fromJson(json,this.token):
         idObject=json["idObject"],
         name=json["name"],
         image=json["image"];
+
 }

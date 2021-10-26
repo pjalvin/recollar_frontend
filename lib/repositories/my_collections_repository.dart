@@ -87,14 +87,30 @@ class MyCollectionsRepository{
         body: jsonEncode(collectionRequest.toJson())
     );
     if(res.statusCode!=200){
-      throw "No se pudo agregar la coleccion";
+      throw "No se pudo editar la coleccion";
     }
     else{
-      print(res.body);
-      var body=jsonDecode(res.body);
       if(imageFile!=null){
-        await uploadImages(imageFile, body["idCollection"]);
+        await uploadImages(imageFile, collectionRequest.idCollection);
       }
+    }
+  }
+  deleteCollection(int idCollection)async{
+
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    String ?token= prefs.getString("token");
+    if(token==null){
+      throw "No existe token Almacenado";
+    }
+    var res=await http.delete(
+        Uri.http(dotenv.env['API_URL'] ?? "", "/collection/$idCollection"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+    );
+    if(res.statusCode!=200){
+      throw "No se pudo eliminar la coleccion";
     }
   }
   Future<void> getCategories()async{
@@ -146,7 +162,7 @@ class MyCollectionsRepository{
       if(response.statusCode==200){
       }
       else{
-        throw "No se pudo obtener las collection";
+        throw "No se pudo subir la imagen de la colleccion";
       }
 
   }

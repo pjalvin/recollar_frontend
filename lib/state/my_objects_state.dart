@@ -34,3 +34,6 @@ class MyObjectsGetObjectOk extends MyObjectsState{
 
   MyObjectsGetObjectOk(Object ? object): super([],object);
 }
+class MyObjectsForm extends MyObjectsState{
+  MyObjectsForm(Object ? object): super([],object);
+}

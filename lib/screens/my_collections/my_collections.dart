@@ -126,14 +126,13 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
           context.read<MyCollectionsBloc>().add(MyCollectionsChangeTools(i));
         },
           onTap: (){
-
             Navigator.push(context, MaterialPageRoute(builder: (context)=> MyObjects(col)));
           },
         child:
             Stack(
               children: [
                 SimpleCardCPNT(color: color2,
-                  borderColor: color2.withOpacity(0.5),
+                  colorBg: colorWhite,
                   text: col.name,
                   text2: "Artículos: ${col.amount}",
                   firstColor: maskcolor1,
@@ -157,12 +156,12 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          ButtonIconCPNT.icon(onPressed: !col.tools?(){}:(){
+                          ButtonIconCPNT.icon(onPressed: !col.tools?null:(){
 
                             editCollection(context,col);
                           }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.edit, color: color2),
-                          ButtonIconCPNT.icon(onPressed: !col.tools?(){}: (){
-                            showDialog(context: context,
+                          ButtonIconCPNT.icon(onPressed: !col.tools?null: ()async{
+                            var result=await showDialog(context: context,
                                 builder: (context){
                                   return AlertDialog(
                                     title: Row(
@@ -176,13 +175,13 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                                       ),
                                     ],
                                     ),
-                                    content: TextParagraphCPNT(onPressed: (){}, colorText: color2, text: "¿Desea eliminar esta colección?"),
+                                    content: TextParagraphCPNT( colorText: color2, text: "¿Desea eliminar esta colección?"),
                                     actions: [
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           FlatButton(
-                                            onPressed: () => Navigator.pop(context),
+                                            onPressed: () => Navigator.pop(context,false),
                                             child: Text("Cancelar",
                                               style: TextStyle(
                                                 color: colorWhite,
@@ -192,7 +191,10 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                                             color: color2,
                                           ),
                                           FlatButton(
-                                            onPressed: (){},
+                                            onPressed: (){
+                                              Navigator.pop(context,true);
+
+                                            },
                                             child: Text("Eliminar",
                                               style: TextStyle(
                                                 color: colorWhite,
@@ -206,8 +208,12 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                                     ],
                                   );
                                 });
+                            if(result==true){
+
+                              context.read<MyCollectionsBloc>().add(MyCollectionsDelete(col.idCollection));
+                            }
                           }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.delete, color: color2),
-                          ButtonIconCPNT.icon(onPressed: !col.tools?(){}:(){
+                          ButtonIconCPNT.icon(onPressed: !col.tools?null:(){
                             context.read<MyCollectionsBloc>().add(MyCollectionsChangeTools(i));
                           }, size: Size(sizeP.width*0.5*0.15,sizeP.width*0.5*0.15), icon: Icons.arrow_back, color: color2),
                         ],

@@ -29,6 +29,10 @@ class MyCollectionsUpdate extends MyCollectionsEvent{
   MyCollectionsUpdate(this.collectionRequest,this.imageFile);
 }
 
+class MyCollectionsDelete extends MyCollectionsEvent{
+  final int idCollection;
+  MyCollectionsDelete(this.idCollection);
+}
 class MyCollectionsChangeTools extends MyCollectionsEvent{
   final int index;
   MyCollectionsChangeTools(this.index);

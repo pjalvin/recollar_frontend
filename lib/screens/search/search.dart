@@ -173,6 +173,8 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                               ],
                             ),
                             ButtonIconCPNT.icon(onPressed: (){
+                              context.read<SearchBloc>().add(SearchInitSearch(searchController.text));
+                              _searchCancel();
 
                             }, size: const Size(30,20),icon: Icons.search,color: _searchActive?colorWhite:color2)
                           ],
@@ -196,7 +198,7 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
       var obj=objectList[i];
       list.add(SimpleCardCPNT(color: color2,
         box: obj.ar?BoxFit.contain:BoxFit.cover,
-        colorBg: obj.status==2?maskcolor2:maskcolor1,
+        colorBg: obj.status==2?color1:maskcolor2,
         text: obj.name,
         text2: "Precio: ${obj.price}",
         firstColor: Colors.transparent,

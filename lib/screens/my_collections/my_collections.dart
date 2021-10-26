@@ -142,6 +142,7 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                   image: col.image,
                   token:col.token,
                   imagePath: "imageCollection",
+                  box: BoxFit.cover,
                   onPressed: (){
                   },
                 ),

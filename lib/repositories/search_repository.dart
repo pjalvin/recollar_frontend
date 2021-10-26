@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class SearchRepository{
   List<Object> objects=[];
+  Object ? object;
 
   Future<List<String>> predict(String key)async{
     if(key.length<2){
@@ -53,6 +54,27 @@ class SearchRepository{
         objects.add(Object.fromJson(obj, token));
       }
 
+    }
+  }
+  Future<void> getObjectById(int idObject)async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String ?token = prefs.getString("token");
+    if (token == null) {
+      throw "No existe token Almacenado";
+    }
+    var res = await http.get(
+      Uri.http(dotenv.env['API_URL'] ?? "", "/object/$idObject",),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    if (res.statusCode != 200) {
+      throw "No se pudo obtener el objeto";
+    }
+    else {
+
+      object=Object.fromJson(json.decode(utf8.decode(res.bodyBytes)),token);
     }
   }
 

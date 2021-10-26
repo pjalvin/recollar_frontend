@@ -24,7 +24,8 @@ class SimpleCardCPNT extends StatelessWidget {
   String image;
   String token;
   String imagePath;
-  SimpleCardCPNT({Key? key,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
+  BoxFit ? box;
+  SimpleCardCPNT({Key? key,this.box,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,11 @@ class SimpleCardCPNT extends StatelessWidget {
             ).createShader(bounds),
             child: Container(
               decoration: BoxDecoration(
+                color: colorWhite,
                 borderRadius: BorderRadius.circular(20),
                 image:DecorationImage(
                     image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"})
-                  ,fit: BoxFit.cover
+                  ,fit: box
                 ),
               ),
               width: size.width,

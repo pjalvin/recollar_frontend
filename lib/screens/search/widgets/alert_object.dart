@@ -1,0 +1,138 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:recollar_frontend/bloc/search_bloc.dart';
+import 'package:recollar_frontend/events/search_event.dart';
+import 'package:recollar_frontend/general_widgets/loading_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
+import 'package:recollar_frontend/state/search_state.dart';
+import 'package:recollar_frontend/util/configuration.dart';
+
+
+class AlertObject extends StatelessWidget{
+  const AlertObject({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: ()async{
+        context.read<SearchBloc>().add(SearchInit());
+        return true;
+      },
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16)
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: dialogContent(context),
+
+      ),
+    );
+  }
+
+  dialogContent(BuildContext context){
+    return BlocBuilder<SearchBloc,SearchState>(
+        builder: (context,state) {
+          if(state is SearchObjectOk && state.object!=null){
+            return Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    top:280,
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
+                  ),
+                  decoration: BoxDecoration(
+                      color: colorGray,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(17),
+                      boxShadow: [
+                        BoxShadow(
+                          color: colorBlack,
+                          blurRadius: 10.0,
+                          offset: Offset(0.0,0.8),
+
+                        )
+                      ]
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextTitleCPNT(colorText: color2, text: state.object!.name, weight: FontWeight.w700),
+                      SizedBox(height: 16.0),
+                      TextParagraphCPNT(onPressed: (){}, colorText: maskcolor1, text: state.object!.description),
+                      SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              TextSubtitleCPNT(colorText: color2, text: "Estado", weight: FontWeight.w700),
+                              SizedBox(height: 16.0),
+                              Text("${state.object!.objectStatus}/10",
+                                style: TextStyle(
+                                    color: maskcolor1,
+                                    fontSize: 16
+                                ),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              TextSubtitleCPNT(colorText: color2, text: "Precio", weight: FontWeight.w700),
+                              SizedBox(height: 16.0),
+                              Text("${state.object!.price}",
+                                style: TextStyle(
+                                    color: maskcolor1,
+                                    fontSize: 16
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 250,
+                    padding: EdgeInsets.all(state.object!.ar?30:0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: colorWhite,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image(
+                        image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"}),
+                        fit: state.object!.ar?BoxFit.contain:BoxFit.cover,
+
+                      ),
+                    )
+                  ),
+                ),
+              ],
+            );
+          }
+          else{
+            return SpinKitFadingCube(
+                color: Colors.white,
+                size: 30
+            );
+          }
+        }
+    );
+  }
+}

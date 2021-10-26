@@ -9,6 +9,7 @@ class Object{
   int status;
   int objectStatus;
   double price;
+  bool ar;
   String token;
 
 
@@ -20,5 +21,6 @@ class Object{
         image=json["image"],
         status=json["status"],
         objectStatus=json["objectStatus"],
+        ar=json["ar"],
         price=json["price"];
 }

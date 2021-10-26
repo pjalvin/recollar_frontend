@@ -16,6 +16,7 @@ import 'package:recollar_frontend/models/object.dart';
 import 'package:recollar_frontend/repositories/search_repository.dart';
 import 'package:recollar_frontend/screens/ar_visor/ar_visor.dart';
 import 'package:recollar_frontend/screens/search/type_information.dart';
+import 'package:recollar_frontend/screens/search/widgets/alert_object.dart';
 import 'package:recollar_frontend/state/search_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
@@ -195,6 +196,7 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
     for(var i=0;i<objectList.length;i++){
       var obj=objectList[i];
       list.add(SimpleCardCPNT(color: color2,
+        box: obj.ar?BoxFit.contain:BoxFit.cover,
         colorBg: obj.status==2?color1.withOpacity(0.9):maskcolor2.withOpacity(0.9),
         text: obj.name,
         text2: "Precio: ${obj.price}",
@@ -206,6 +208,9 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
         token:obj.token,
         imagePath: "imageCollection",
         onPressed: (){
+          context.read<SearchBloc>().add(SearchObjectInit(obj.idObject));
+          showDialog(context: context, builder: (_) => BlocProvider.value(value: BlocProvider.of<SearchBloc>(context),child: const AlertObject(),),
+              barrierDismissible: true);
         },
       ));
     }

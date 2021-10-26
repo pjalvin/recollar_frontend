@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recollar_frontend/events/my_objects_event.dart';
 import 'package:recollar_frontend/repositories/my_objects_repository.dart';
@@ -26,16 +27,16 @@ class MyObjectsBloc extends Bloc<MyObjectsEvent,MyObjectsState>{
     }
     if(event is MyObjectsAdd){
       yield MyObjectsFormLoading();
-      await _myObjectsRepository.addObject(event.objectRequest,event.imageFile);
+      await _myObjectsRepository.addObject(event.objectRequest,event.imageFile,event.imageAR);
       await _myObjectsRepository.getObjects(true);
-      yield MyObjectsOk(_myObjectsRepository.objects);
+      yield MyObjectsAddOk(_myObjectsRepository.objects);
 
     }
     if(event is MyObjectsUpdate){
       yield MyObjectsFormLoading();
-      await _myObjectsRepository.updateObject(event.object,event.imageFile);
+      await _myObjectsRepository.updateObject(event.object,event.imageFile,event.imageAR);
       await _myObjectsRepository.getObjects(true);
-      yield MyObjectsOk(_myObjectsRepository.objects);
+      yield MyObjectsAddOk(_myObjectsRepository.objects);
 
     }
     if(event is MyObjectsDelete){
@@ -59,6 +60,11 @@ class MyObjectsBloc extends Bloc<MyObjectsEvent,MyObjectsState>{
     if(event is MyObjectsInitForm){
       _myObjectsRepository.object=null;
       yield MyObjectsGetObjectOk(_myObjectsRepository.object);
+    }
+    if(event is MyObjectsRemoveBgInit){
+      yield MyObjectsRemoveBgLoading();
+      Uint8List imageAR=await _myObjectsRepository.removeBgImage(event.image);
+      yield MyObjectsRemoveBgOk(imageAR,_myObjectsRepository.object);
     }
   }
 

@@ -32,6 +32,17 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
         yield SearchPredictLoading();
       }
     }
+    if(event is SearchObjectInit){
+      try{
+        yield SearchLoading();
+        await _searchRepository.getObjectById(event.idObject);
+        yield SearchObjectOk(_searchRepository.objects,_searchRepository.object);
+      }
+      catch(e){
+        print(e);
+        yield SearchPredictLoading();
+      }
+    }
   }
 
 }

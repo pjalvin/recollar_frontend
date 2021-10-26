@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:recollar_frontend/bloc/my_objects_bloc.dart';
 import 'package:recollar_frontend/events/my_objects_event.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/loading_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/models/object.dart';
@@ -62,23 +64,23 @@ class _MyObjectsState extends State<MyObjects>{
                           borderRadius:  BorderRadius.only(topLeft: Radius.circular(sizeP.width*0.05),topRight: Radius.circular(sizeP.width*0.05)),
                           child: StaggeredGridView.extent(
 
-                            controller:_scrollController,
-                            shrinkWrap: true,
+                              controller:_scrollController,
+                              shrinkWrap: true,
 
-                            scrollDirection: Axis.vertical,
+                              scrollDirection: Axis.vertical,
 
-                            padding:EdgeInsets.only(left: 10 ,right: 10,top: 10,bottom: 50+sizeP.height*0.02),
+                              padding:EdgeInsets.only(left: 10 ,right: 10,top: 10,bottom: 50+sizeP.height*0.02),
 
-                            children: getList(
-                              state.objects,context
+                              children: getList(
+                                  state.objects,context
+                              ),
+                              staggeredTiles: getListTile(
+                                  state.objects
+                              ),
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              maxCrossAxisExtent: sizeP.width*0.5,
                             ),
-                            staggeredTiles: getListTile(
-                              state.objects
-                            ),
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            maxCrossAxisExtent: sizeP.width*0.5,
-                          ),
                         )
                       ],
                     ),
@@ -114,6 +116,7 @@ class _MyObjectsState extends State<MyObjects>{
                       ],
                     ),
                   ),
+                  state is MyObjectsLoading?LoadingCPNT(size:sizeP):Container()
                 ],
               )
       );
@@ -148,6 +151,7 @@ class _MyObjectsState extends State<MyObjects>{
         text: obj.name,
         image: obj.image,
         token: obj.token,
+                ar: obj.ar,
         /*imagePath: imagePath*/),
               AnimatedOpacity(opacity: obj.tools?0.8:0, duration: const Duration(milliseconds: 400),
                   child: Container(

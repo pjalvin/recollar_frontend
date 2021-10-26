@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recollar_frontend/models/object.dart';
 import 'package:recollar_frontend/models/object_request.dart';
@@ -29,13 +32,15 @@ class MyObjectsInitForm extends MyObjectsEvent{
 }
 class MyObjectsAdd extends MyObjectsEvent{
   final ObjectRequest objectRequest;
-  final XFile imageFile;
-  MyObjectsAdd(this.objectRequest,this.imageFile);
+  final XFile ?imageFile;
+  final Uint8List ?imageAR;
+  MyObjectsAdd(this.objectRequest,this.imageFile,this.imageAR);
 }
 class MyObjectsUpdate extends MyObjectsEvent{
   final ObjectRequest object;
   final XFile ?imageFile;
-  MyObjectsUpdate(this.object, this.imageFile);
+  final Uint8List ?imageAR;
+  MyObjectsUpdate(this.object, this.imageFile,this.imageAR);
 }
 class MyObjectsDelete extends MyObjectsEvent{
   final int idObject;
@@ -45,4 +50,9 @@ class MyObjectsChangeStatus extends MyObjectsEvent{
   final int idObject;
   final int objectStatus;
   MyObjectsChangeStatus(this.idObject,this.objectStatus);
+}
+class MyObjectsRemoveBgInit extends MyObjectsEvent
+{
+  final XFile image;
+  MyObjectsRemoveBgInit(this.image);
 }

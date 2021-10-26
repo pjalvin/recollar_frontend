@@ -14,3 +14,7 @@ class SearchInitPredict extends SearchEvent{
 class SearchInit extends SearchEvent{
   SearchInit();
 }
+class SearchObjectInit extends SearchEvent{
+  final int idObject;
+  SearchObjectInit(this.idObject);
+}

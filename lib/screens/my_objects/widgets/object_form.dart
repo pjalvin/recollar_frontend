@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,13 @@ import 'package:recollar_frontend/general_widgets/text_field_primary_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
 import 'package:recollar_frontend/models/object_request.dart';
+import 'package:recollar_frontend/screens/my_objects/widgets/preview_ar.dart';
 import 'package:recollar_frontend/state/my_objects_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 import 'package:recollar_frontend/models/object.dart';
 import 'package:recollar_frontend/screens/my_collections/widgets/no_image.dart';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 class ObjectForm extends StatefulWidget{
   final bool edit;
   ObjectForm(this.edit){
@@ -31,6 +34,9 @@ class _ObjectFormState extends State<ObjectForm>{
   TextEditingController nameController=TextEditingController();
   TextEditingController descriptionController=TextEditingController();
   TextEditingController priceController=TextEditingController();
+  Uint8List ? _imageAR;
+  int  _objectStatus=5;
+  bool _ar=false;
 
   XFile ?_imagePublication;
   Size sizeP=const Size(1,1);
@@ -46,19 +52,21 @@ class _ObjectFormState extends State<ObjectForm>{
               nameController.text=state.object!.name;
               descriptionController.text=state.object!.description;
               priceController.text=state.object!.price.toString();
+              _ar=state.object!.ar;
+              _objectStatus=state.object!.objectStatus;
               firstBuild=false;
             }
           }
-          if(state is MyObjectsOk){
+
+          if(state is MyObjectsAddOk){
             WidgetsBinding.instance!.addPostFrameCallback((_){
               Navigator.pop(context);
             });
           }
-
           return WillPopScope(
             onWillPop: ()async{
               context.read<MyObjectsBloc>().add(MyObjectsInit());
-              return false;
+              return true;
             },
             child: Scaffold(
               appBar: AppBar(
@@ -87,20 +95,40 @@ class _ObjectFormState extends State<ObjectForm>{
 
                     body: ListView(
                       shrinkWrap: true,
-                      padding: const EdgeInsets.only(top:70),
+                      padding: const EdgeInsets.only(top:20),
                       children: [
+                        Row(
+                          mainAxisAlignment:MainAxisAlignment.center,
+                          children: [
+                            ButtonPrimaryCPNT(
+                                onPressed: (){
+                                    _openCamera(context);
+                                },
+                                size: Size(sizeP.width*0.5,sizeP.width*0.1),
+                                colorBg: _ar!=null?color1:color1.withOpacity(0.3),
+                                colorText: _ar!=null?color2:color2.withOpacity(0.5),
+                                text: _ar?"AR Habilitado":"Habilitar AR",
+
+                                elevation: 0)
+                          ],
+                        ),
+                const SizedBox(height: 30,)
+                        ,
                         Row(
                           mainAxisAlignment:MainAxisAlignment.center,
                           children: [
                             GestureDetector(
                               onTap: (){
-                                _openGallery();
+                                if( _imageAR==null){
+
+                                  _openGallery();
+                                }
                               },
                               child: ClipRRect(
 
-                                child:
-                                _imagePublication!=null?Image(image:FileImage(File(_imagePublication!.path)),fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):
-                                widget.edit&&state.object!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"},fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
+                                child:_imageAR!=null?Image.memory(_imageAR!,fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7):
+                                _imagePublication!=null?Image(image:FileImage(File(_imagePublication!.path)),fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):
+                                widget.edit&&state.object!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"},fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
                                 borderRadius:  BorderRadius.circular(10),
 
                               ),
@@ -149,6 +177,41 @@ class _ObjectFormState extends State<ObjectForm>{
                             TextFieldPrimaryCPNT(maxLength: 50,onChanged: (text){},icon: null, textType: TextInputType.number, obscureText: false, controller: priceController, colorBorder: colorWhite, size: Size(sizeP.width*0.9,50), colorBg: colorWhite, colorText: color2, hintText: ""),
                           ],
                         ),
+                        const SizedBox(height: 20,),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: sizeP.width*0.05),
+                            child:
+                            TextSubtitleCPNT( colorText: color2.withOpacity(0.7), text: "Estado del Objeto", weight: FontWeight.w600)
+
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment:MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width:sizeP.width*0.7,
+                              height: 20,
+                              child: SfSlider(
+                                min: 1,
+                                max: 10,
+                                activeColor: color1,
+                                inactiveColor: color2.withOpacity(0.5),
+                                value: _objectStatus,
+                                thumbIcon: Center(child: Text(_objectStatus.toString()),),
+                                interval: 1,
+                                enableTooltip: true,
+
+                                onChanged: (dynamic value){
+                                  setState(() {
+                                    var value2=value as double;
+                                    _objectStatus = value2.toInt();
+                                  });
+                                },
+                              ),
+                            )
+                            ],
+                        ),
+
                         const SizedBox(height: 100,),
                       ],
                     ),
@@ -164,6 +227,7 @@ class _ObjectFormState extends State<ObjectForm>{
   _openGallery() async {
     var imagePicker = ImagePicker();
     var picture = await imagePicker.pickImage(source: ImageSource.gallery);
+
     if (picture != null) {
       setState(() {
         _imagePublication=picture;
@@ -171,18 +235,46 @@ class _ObjectFormState extends State<ObjectForm>{
     }
     //this.setState({});
   }
+  _openCamera(BuildContext context) async {
+    var imagePicker = ImagePicker();
+    var picture = await imagePicker.pickImage(source: ImageSource.camera);
+    if (picture != null) {
+      context.read<MyObjectsBloc>().add(MyObjectsRemoveBgInit(picture));
+      var image=await Navigator.push(context, MaterialPageRoute(builder: (_)=>
+          BlocProvider.value(
+            value: BlocProvider.of<MyObjectsBloc>(context),
+            child: PreviewAR(),
+          )));
+        if(image!=null){
+          setState(() {
+            _imageAR=image;
+            _ar=true;
+          });
+        }
+    }
+  }
 
   _add(BuildContext context){
-    int objectStatus = 1;
 
-    ObjectRequest objectRequest = ObjectRequest(null,null,nameController.text,descriptionController.text,objectStatus,double.parse(priceController.text));
+    ObjectRequest objectRequest = ObjectRequest(null,null,nameController.text,descriptionController.text,_objectStatus,double.parse(priceController.text),_ar);
 
-    context.read<MyObjectsBloc>().add(MyObjectsAdd(objectRequest,_imagePublication??XFile("")));
+    if(_imageAR!=null){
+      context.read<MyObjectsBloc>().add(MyObjectsAdd(objectRequest,null,_imageAR));
+    }
+    else{
+      context.read<MyObjectsBloc>().add(MyObjectsAdd(objectRequest,_imagePublication,null));
+
+    }
   }
   _edit(BuildContext context,Object object){
-    int objectStatus = 1;
-    ObjectRequest objectRequest = ObjectRequest(object.idObject,object.idCollection,nameController.text,descriptionController.text,objectStatus,double.parse(priceController.text));
+    ObjectRequest objectRequest = ObjectRequest(object.idObject,object.idCollection,nameController.text,descriptionController.text,_objectStatus,double.parse(priceController.text),_ar);
 
-    context.read<MyObjectsBloc>().add(MyObjectsUpdate(objectRequest,_imagePublication));
+    if(_imageAR!=null){
+      context.read<MyObjectsBloc>().add(MyObjectsUpdate(objectRequest,null,_imageAR));
+    }
+    else{
+      context.read<MyObjectsBloc>().add(MyObjectsUpdate(objectRequest,_imagePublication,null));
+
+    }
   }
 }

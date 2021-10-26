@@ -16,9 +16,10 @@ class ObjectCard extends StatelessWidget {
   String text;
   String image;
   String token;
+  bool ar;
 
 
-  ObjectCard({Key? key,required this.onPressed, required this.borderColor,required this.textColor,
+  ObjectCard({Key? key,required this.onPressed, required this.borderColor,required this.textColor,required this.ar,
      required this.size,required this.text,required this.image,required this.token/*,required this.imagePath*/}) : super(key: key);
 
   @override
@@ -30,7 +31,7 @@ class ObjectCard extends StatelessWidget {
             borderRadius: BorderRadius.circular( size.width*0.05),
             image:DecorationImage(
                 image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"}),
-                fit: BoxFit.cover,
+                fit: ar?BoxFit.contain:BoxFit.cover,
             ),
           ),
           width: size.width,

@@ -96,7 +96,7 @@ class DialogCard extends StatelessWidget{
                       ],
                     ),
                     SizedBox(height: 16.0),
-                    Row(
+                    state.object!.status==1?Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         // ignore: deprecated_member_use
@@ -128,6 +128,25 @@ class DialogCard extends StatelessWidget{
                           color: color1,
                         ),
                       ],
+                    ):
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // ignore: deprecated_member_use
+                        FlatButton(
+                          onPressed: (){
+                            context.read<MyObjectsBloc>().add(MyObjectsChangeStatus(state.object!.idObject, 1));
+                            Navigator.pop(context);
+                          },
+                          child: Text("Quitar de venta o intercambio",
+                            style: TextStyle(
+                              color: colorWhite,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          color: maskcolor2,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -139,11 +158,12 @@ class DialogCard extends StatelessWidget{
                 child: Container(
                   height: 250,
                   decoration: BoxDecoration(
-                    color: color2,
+                    color: colorWhite,
                   ),
                   child: Image(
                     image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"}),
-                    fit: BoxFit.cover,
+                    fit: state.object!.ar?BoxFit.contain:BoxFit.cover,
+
                   ),
                 ),
               ),

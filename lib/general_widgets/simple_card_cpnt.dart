@@ -25,7 +25,8 @@ class SimpleCardCPNT extends StatelessWidget {
   String token;
   String imagePath;
   BoxFit ? box;
-  SimpleCardCPNT({Key? key,this.box,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
+  Color ? textSecondColor;
+  SimpleCardCPNT({Key? key,this.textSecondColor,this.box,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +44,26 @@ class SimpleCardCPNT extends StatelessWidget {
               ],
             ).createShader(bounds),
             child: Container(
-              decoration: BoxDecoration(
-                color: colorWhite,
-                borderRadius: BorderRadius.circular(20),
-                image:DecorationImage(
-                    image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"})
-                  ,fit: box
-                ),
-              ),
               width: size.width,
               height: size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Container(
+                    padding: EdgeInsets.all(box==BoxFit.contain?20:0),
 
+                    decoration: BoxDecoration(
+                      color: colorWhite,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+
+                    ),
+                    width: size.width,
+                    height: size.height*0.6,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                      child: Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"},fit: box)
+                      ,
+                    )   ),
                   Container(
                       height: size.height*0.4,
                       width: size.width,
@@ -81,7 +88,7 @@ class SimpleCardCPNT extends StatelessWidget {
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 7),
-                                  child: TextParagraphCPNT(text: text2,colorText: textColor.withOpacity(0.5), onPressed: () {  },fontWeight: FontWeight.w600,),
+                                  child: TextParagraphCPNT(text: text2,colorText: textSecondColor??textColor.withOpacity(0.5), onPressed: () {  },fontWeight: FontWeight.w600,),
                                 ),
                               ],
                             )

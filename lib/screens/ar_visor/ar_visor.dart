@@ -30,7 +30,8 @@ class _ArVisorState extends State<ArVisor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image object'),
+        title: const Text('Visor AR'),
+        backgroundColor: color2,
       ),
       body: Stack(
         children: [
@@ -41,6 +42,7 @@ class _ArVisorState extends State<ArVisor> {
           ),
           _lastHit!=null?Positioned(
             bottom: 10,
+            width: MediaQuery.of(context).size.width,
             child:
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +64,8 @@ class _ArVisorState extends State<ArVisor> {
                 },
               )
             ],
-          ),):Container()
+          ),
+          ):Container()
         ],
       )
     );
@@ -83,7 +86,7 @@ class _ArVisorState extends State<ArVisor> {
         image: ArCoreImage(bytes: thumbnail.getBytes(), width: (image.width*_sizeNode).toInt(), height: (image.height*_sizeNode).toInt(),),
         position: _lastHit!.pose.translation + vector.Vector3(0.0, 0.0, 0.0),
         rotation: _lastHit!.pose.rotation + vector.Vector4(0.0, 0.0, 0.0, 0.0),
-        scale: vector.Vector3(0.002, 2, 2),
+
         name: "node"
 
     );
@@ -101,7 +104,6 @@ class _ArVisorState extends State<ArVisor> {
       image: ArCoreImage(bytes: bytes, width: image.width, height: image.height,),
       position: hit.pose.translation + vector.Vector3(0.0, 0.0, 0.0),
       rotation: hit.pose.rotation + vector.Vector4(0.0, 0.0, 0.0, 0.0),
-      scale: vector.Vector3(0.002, 2, 2),
       name: "node"
 
     );

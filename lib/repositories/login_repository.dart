@@ -8,6 +8,7 @@ class LoginRepository{
 
   Future login(UserAuth userAuth) async{
     userAuth.verifyData();
+    print(userAuth.toJson());
       var res=await http.post(
           Uri.http(dotenv.env['API_URL'] ?? "", "/login"),
           body: userAuth.toJson(),
@@ -23,6 +24,9 @@ class LoginRepository{
       }
       var body=jsonDecode(res.body);
       SharedPreferences prefs=await SharedPreferences.getInstance();
+      print("-----------------");
+      print(body);
+    print("-----------------");
       await prefs.setString("token", body["access_token"] ?? "");
 
   }

@@ -40,6 +40,18 @@ class ProfileBloc extends Bloc<ProfileEvent,ProfileState>{
         yield ProfileOk( _profileRepository.user);
       }
     }
+    if(event is PasswordChange){
+      try{
+        yield ProfileLoading();
+        await _profileRepository.changePassword(event.userChangeRequest);
+        ToastLib.ok("Datos modificados correctamente");
+        yield ProfileOk( _profileRepository.user);
+      }
+      catch (e){
+        ToastLib.error(e.toString());
+        yield ProfileOk( _profileRepository.user);
+      }
+    }
   }
 
 }

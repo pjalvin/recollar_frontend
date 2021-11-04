@@ -32,7 +32,8 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
         User user=await loginRepository.profile();
         yield LoginOk(UserAuth("",""), user);
       }
-      on SocketException catch(_){
+      on SocketException catch(e){
+        print(e.toString());
         ToastLib.error("No se puede conectar con el servidor");
         yield LoginFailed(event.userAuth);
 

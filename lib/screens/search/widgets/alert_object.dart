@@ -5,10 +5,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recollar_frontend/bloc/search_bloc.dart';
 import 'package:recollar_frontend/events/search_event.dart';
+import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/loading_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
+import 'package:recollar_frontend/screens/ar_visor/ar_visor.dart';
 import 'package:recollar_frontend/state/search_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 
@@ -123,6 +125,18 @@ class AlertObject extends StatelessWidget{
                     )
                   ),
                 ),
+                state.object!.ar?Positioned(
+                  top: 200,
+                  right: 10,
+                  child: ButtonIconCPNT.icon(onPressed: (){
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ArVisor(image:state.object!.image,token:state.object!.token)));
+                  }, size: Size(30,30), icon: Icons.visibility_sharp, color: color1)
+                ):Positioned(
+                    top: 200,
+                    right: 10,
+                    child: ButtonIconCPNT.icon(onPressed: (){}, size: Size(30,30), icon: Icons.visibility_sharp, color: Colors.transparent)
+                )
               ],
             );
           }

@@ -18,3 +18,7 @@ class SearchObjectInit extends SearchEvent{
   final int idObject;
   SearchObjectInit(this.idObject);
 }
+class SearchInitSearch extends SearchEvent{
+  final String key;
+  SearchInitSearch(this.key);
+}

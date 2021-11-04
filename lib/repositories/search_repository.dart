@@ -26,14 +26,15 @@ class SearchRepository{
       return listWords;
     }
   }
-  Future<void> getObjects(bool init )async {
+  Future<void> getObjects(bool init, String ?key) async {
+    print(key);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String ?token = prefs.getString("token");
     if (token == null) {
       throw "No existe token Almacenado";
     }
     var res = await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/public"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "/object/public",key!=null&&key.isNotEmpty?{"text":key}:{}),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"

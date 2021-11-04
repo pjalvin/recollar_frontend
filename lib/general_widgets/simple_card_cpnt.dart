@@ -27,8 +27,7 @@ class SimpleCardCPNT extends StatelessWidget {
   String imagePath;
   BoxFit ? box;
   Color ? borderColor;
-  final List<Color> _colors=const [Color(0xff49231e), Color(0xff6d4719),Color(0xff553b2e),Color(0xffaa2915),Color(
-      0xff524727)];
+  final List<Color> _colors=[color2,maskcolor2,maskcolor1];
   SimpleCardCPNT({Key? key,this.borderColor,this.box,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override

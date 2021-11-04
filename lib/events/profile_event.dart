@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:recollar_frontend/models/profile_request.dart';
-import 'package:recollar_frontend/models/user_change_request.dart';
+import 'package:recollar_frontend/models/password_request.dart';
 
 
 abstract class ProfileEvent extends Equatable{
@@ -16,6 +16,6 @@ class ProfileChange extends ProfileEvent{
   ProfileChange(this.profileRequest);
 }
 class PasswordChange extends ProfileEvent{
-  final UserChangeRequest userChangeRequest;
+  final PasswordRequest userChangeRequest;
   PasswordChange(this.userChangeRequest);
 }

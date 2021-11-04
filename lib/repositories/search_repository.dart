@@ -58,18 +58,23 @@ class SearchRepository{
     }
   }
   Future<void> getObjectById(int idObject)async {
+    print("si");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String ?token = prefs.getString("token");
     if (token == null) {
       throw "No existe token Almacenado";
     }
+
+    print(idObject);
     var res = await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/$idObject",),
+      Uri.http(dotenv.env['API_URL'] ?? "", "/object/$idObject",{"pub":"true"}),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
       },
     );
+    print(res.body);
+    print("si");
     if (res.statusCode != 200) {
       throw "No se pudo obtener el objeto";
     }

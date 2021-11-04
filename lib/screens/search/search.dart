@@ -1,3 +1,4 @@
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recollar_frontend/bloc/search_bloc.dart';
 import 'package:recollar_frontend/events/search_event.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/loading_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/simple_card_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_field_primary_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
@@ -19,6 +21,7 @@ import 'package:recollar_frontend/screens/search/type_information.dart';
 import 'package:recollar_frontend/screens/search/widgets/alert_object.dart';
 import 'package:recollar_frontend/state/search_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
+import 'package:recollar_frontend/util/my_behavior.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
   TextEditingController searchController=TextEditingController();
+  final _controller = ScrollController();
   FocusNode focus= FocusNode();
   Size sizeP=const Size(1,1);
   bool _searchActive=false;
@@ -49,7 +53,6 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                     color: colorGray,
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 90),
                     height: sizeP.height-90,
                     decoration: BoxDecoration(
                       borderRadius:  BorderRadius.only(topLeft: Radius.circular(sizeP.width*0.05),topRight: Radius.circular(sizeP.width*0.05)),
@@ -70,20 +73,23 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                         SizedBox(
                           width: sizeP.width,
                           height: sizeP.height,
-                          child: StaggeredGridView.extent(
+                          child: ScrollConfiguration(
+                            behavior: MyBehavior(),
+                            child: StaggeredGridView.extent(
+                                  controller: _controller,
+                                shrinkWrap: true,
 
-                            shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
 
-                            scrollDirection: Axis.vertical,
+                                padding:EdgeInsets.only(left: 10 ,right: 10,top: MediaQuery.of(context).padding.top+90),
 
-                            padding:EdgeInsets.only(left: 10 ,right: 10,top: 60,bottom: 50+sizeP.height*0.02),
+                                children: getList(state.objects,context),
+                                staggeredTiles: getListTile(state.objects),
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                maxCrossAxisExtent: sizeP.width*0.5,
 
-                            children: getList(state.objects,context),
-                            staggeredTiles: getListTile(state.objects),
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            maxCrossAxisExtent: sizeP.width*0.5,
-
+                              ),
                           ),
                         ),
                         
@@ -147,7 +153,7 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                     ],
                   ):Container(),
                   Container(
-                    height: 110,
+                    height: 80,
                     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top,left: sizeP.width*0.05,right: sizeP.width*0.05),
                     width: sizeP.width,
 
@@ -164,8 +170,10 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                                       _searchInit();
                                     },
                                     onFinish:(){
-                                      _searchOK();
+                                      context.read<SearchBloc>().add(SearchInitSearch(searchController.text));
+                                      _searchCancel();
                                     }
+
                                     ,onChanged: (key){
                                       context.read<SearchBloc>().add(SearchInitPredict(key));
                                 }
@@ -180,10 +188,11 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
                           ],
                         ),
 
-                        TypeInformation(size: Size(sizeP.width*0.5,30))
+                        //TypeInformation(size: Size(sizeP.width*0.5,30))
                       ],
                     ),
-                  )
+                  ),
+                  state is SearchLoading?LoadingCPNT(size: sizeP):Container()
                 ],
               )
           );
@@ -193,18 +202,24 @@ class _SearchState extends State<Search>  with AutomaticKeepAliveClientMixin{
   }
   List<Widget> getList(List<Object> objectList,BuildContext context){
     List<Widget> list=[];
-    var height=150.0;
+    var height=200.0;
     for(var i=0;i<objectList.length;i++){
       var obj=objectList[i];
+
+      if(i%3==0){
+        height=150.0;
+      }
+      else{
+        height=200.0;
+      }
       list.add(SimpleCardCPNT(color: color2,
         box: obj.ar?BoxFit.contain:BoxFit.cover,
-        colorBg: colorWhite,
+        colorBg: color2,
         text: obj.name,
         text2: "Precio: ${obj.price}",
         firstColor: Colors.transparent,
         secondColor: Colors.transparent,
         textColor: color2,
-        textSecondColor: obj.status==2?color1:maskcolor2,
         size: Size(sizeP.width*0.5, height),
         image: obj.image,
         token:obj.token,

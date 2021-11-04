@@ -69,61 +69,65 @@ class _AppMainState extends State<AppMain> with SingleTickerProviderStateMixin{
                 ],
               ),
               margin:  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-              child: GNav(
-                tabBorderRadius: 20,
-                gap: 8,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                duration: const Duration(milliseconds: 100),
-                color: Colors.grey[800],
-                activeColor: colorBlack,
-                iconSize: 24,
-                tabBackgroundColor: color1.withOpacity(0.7),
-                padding: EdgeInsets.symmetric( vertical: 8,horizontal: sizeP.width*0.05),
-                tabMargin: EdgeInsets.symmetric(vertical: sizeP.height*0.01),
-                onTabChange: (int index)async {
-                  /*controller.animateToPage(index,curve: Curves.fastOutSlowIn,duration: const Duration(milliseconds: 300));*/
-                  if(index!=_currentIndex){
-                    if(_currentIndex>index){
+              child: Material(
+                elevation: 10,
+                borderRadius: BorderRadius.circular(20),
+                child: GNav(
+                  tabBorderRadius: 20,
+                  gap: 8,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  duration: const Duration(milliseconds: 100),
+                  color: Colors.grey[800],
+                  activeColor: colorBlack,
+                  iconSize: 24,
+                  tabBackgroundColor: color1.withOpacity(0.7),
+                  padding: EdgeInsets.symmetric( vertical: 8,horizontal: sizeP.width*0.05),
+                  tabMargin: EdgeInsets.symmetric(vertical: sizeP.height*0.01),
+                  onTabChange: (int index)async {
+                    /*controller.animateToPage(index,curve: Curves.fastOutSlowIn,duration: const Duration(milliseconds: 300));*/
+                    if(index!=_currentIndex){
+                      if(_currentIndex>index){
+                        setState(() {
+                          _reverse=true;
+                        });
+                      }
+                      else{
+                        setState(() {
+                          _reverse=false;
+                        });
+                      }
+                      await _controller.forward(from: 1.5);
                       setState(() {
-                        _reverse=true;
+                        _currentIndex=index;
                       });
+                      await _controller.reverse();
                     }
-                    else{
-                      setState(() {
-                        _reverse=false;
-                      });
-                    }
-                    await _controller.forward(from: 1.5);
-                    setState(() {
-                      _currentIndex=index;
-                    });
-                    await _controller.reverse();
-                  }
-                },
-                tabs:  [
-                  GButton(
-                    iconColor: color2,
-                    iconActiveColor: color2,
-                    icon: Icons.home,
-                    textStyle:  TextStyle(color: color2,fontWeight: FontWeight.w600),
-                    text: 'Inicio',
-                  ),
-                  GButton(
-                    iconColor: color2,
-                    iconActiveColor: color2,
-                    icon: Icons.search,
-                    textStyle:  TextStyle(color: color2,fontWeight: FontWeight.w600),
-                    text: 'Buscar',
-                  ),
-                  GButton(
-                    iconColor: color2,
-                    iconActiveColor: color2,
-                    icon: Icons.person,
-                    textStyle:  TextStyle(color: color2,fontWeight: FontWeight.w600),
-                    text: 'Perfil',
-                  )
-                ],
+                  },
+                  tabs:  [
+                    GButton(
+                      iconColor: color2,
+                      iconActiveColor: color2,
+                      icon: Icons.home,
+                      textStyle:  TextStyle(color: color2,fontWeight: FontWeight.w600),
+                      text: 'Inicio',
+                    ),
+                    GButton(
+                      iconColor: color2,
+                      iconActiveColor: color2,
+                      icon: Icons.search,
+                      textStyle:  TextStyle(color: color2,fontWeight: FontWeight.w600),
+                      text: 'Buscar',
+                    ),
+                    GButton(
+                      iconColor: color2,
+                      iconActiveColor: color2,
+                      icon: Icons.person,
+                      textStyle:  TextStyle(color: color2,fontWeight: FontWeight.w600),
+                      text: 'Perfil',
+                    )
+                  ],
 
+                ),
               ),
             ),
           ),

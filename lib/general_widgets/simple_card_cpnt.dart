@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,10 @@ class SimpleCardCPNT extends StatelessWidget {
   String token;
   String imagePath;
   BoxFit ? box;
-  Color ? textSecondColor;
-  SimpleCardCPNT({Key? key,this.textSecondColor,this.box,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
+  Color ? borderColor;
+  final List<Color> _colors=const [Color(0xff49231e), Color(0xff6d4719),Color(0xff553b2e),Color(0xffaa2915),Color(
+      0xff524727)];
+  SimpleCardCPNT({Key? key,this.borderColor,this.box,required this.imagePath,required this.token,required this.image,required this.color,required this.colorBg,required this.text2,required this.firstColor,required this.secondColor,required this.text,required this.textColor,this.onPressed,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,36 +50,45 @@ class SimpleCardCPNT extends StatelessWidget {
               width: size.width,
               height: size.height,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(box==BoxFit.contain?20:0),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(box==BoxFit.contain?size.width*0.15:0),
 
-                    decoration: BoxDecoration(
-                      color: colorWhite,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                      decoration: BoxDecoration(
 
-                    ),
-                    width: size.width,
-                    height: size.height*0.6,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
-                      child: Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"},fit: box)
-                      ,
-                    )   ),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                        image: DecorationImage(
+                          image: AssetImage("assets/background/ar_bg.jpg"),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(_colors[Random().nextInt(_colors.length)], BlendMode.color,)
+                        ),
+
+
+                      ),
+                      width: size.width,
+                      height: size.height*0.6-2,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                        child: Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"},fit: box)
+                        ,
+                      )   ),
+                  ),
                   Container(
-                      height: size.height*0.4,
                       width: size.width,
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.03,vertical: size.width*0.01),
                       decoration: BoxDecoration(
-                        color: colorBg,
-                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(size.width*0.05) ,bottomRight: Radius.circular(size.width*0.05)),
+                        color: colorWhite,
+                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20) ,bottomRight: Radius.circular(20)),
                         //#D4D4D5
                       ),
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               children: [
                                 Expanded(
@@ -84,14 +96,20 @@ class SimpleCardCPNT extends StatelessWidget {
                                 )
                               ],
                             ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 7),
-                                  child: TextParagraphCPNT(text: text2,colorText: textSecondColor??textColor.withOpacity(0.5), onPressed: () {  },fontWeight: FontWeight.w600,),
+                                  child: TextParagraphCPNT(text: text2,colorText: textColor.withOpacity(0.5), onPressed: () {  },fontWeight: FontWeight.w600,),
                                 ),
                               ],
-                            )
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                           ],
                         ),
                       )

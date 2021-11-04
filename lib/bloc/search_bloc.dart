@@ -13,45 +13,45 @@ class SearchBloc extends Bloc<SearchEvent,SearchState>{
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
     if(event is SearchInitPredict){
       try{
-        yield SearchPredictLoading();
+        yield SearchPredictLoading(_searchRepository.objects);
         List<String> words=await _searchRepository.predict(event.key);
-        yield SearchPredict(words);
+        yield SearchPredict(words,_searchRepository.objects);
       }
       catch(e){
-        yield SearchPredictLoading();
+        yield SearchPredictLoading(_searchRepository.objects);
       }
     }
     if(event is SearchInit){
       try{
-        yield SearchLoading();
+        yield SearchLoading(_searchRepository.objects);
         await _searchRepository.getObjects(true,null);
         yield SearchOk(_searchRepository.objects);
       }
       catch(e){
         print(e);
-        yield SearchPredictLoading();
+        yield SearchPredictLoading(_searchRepository.objects);
       }
     }
     if(event is SearchObjectInit){
       try{
-        yield SearchLoading();
+        yield SearchLoading(_searchRepository.objects);
         await _searchRepository.getObjectById(event.idObject);
         yield SearchObjectOk(_searchRepository.objects,_searchRepository.object);
       }
       catch(e){
         print(e);
-        yield SearchPredictLoading();
+        yield SearchPredictLoading(_searchRepository.objects);
       }
     }
     if(event is SearchInitSearch){
       try{
-        yield SearchLoading();
+        yield SearchLoading(_searchRepository.objects);
         await _searchRepository.getObjects(true,event.key);
         yield SearchOk(_searchRepository.objects);
       }
       catch(e){
         print(e);
-        yield SearchPredictLoading();
+        yield SearchPredictLoading(_searchRepository.objects);
       }
     }
   }

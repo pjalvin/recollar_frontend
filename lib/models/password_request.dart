@@ -1,8 +1,8 @@
-class UserChangeRequest{
+class PasswordRequest{
   String oldPassword;
   String newPassword;
 
-  UserChangeRequest(this.oldPassword, this.newPassword);
+  PasswordRequest(this.oldPassword, this.newPassword);
   Map <String,dynamic> toJson()=>{
     "oldPassword":oldPassword,
     "newPassword":newPassword

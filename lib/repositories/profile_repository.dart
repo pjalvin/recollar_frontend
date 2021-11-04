@@ -3,7 +3,7 @@ import 'package:recollar_frontend/models/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:recollar_frontend/models/user_change_request.dart';
+import 'package:recollar_frontend/models/password_request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class ProfileRepository{
   User user=User("","","",0,"");
@@ -51,7 +51,7 @@ class ProfileRepository{
     user.lastName=profileRequest.lastName;
     user.phoneNumber=profileRequest.phoneNumber;}
   }
-  Future<void> changePassword(UserChangeRequest userChangeRequest)async{
+  Future<void> changePassword(PasswordRequest userChangeRequest)async{
     userChangeRequest.verifyData();
     SharedPreferences prefs=await SharedPreferences.getInstance();
     String ?token= prefs.getString("token");
@@ -59,7 +59,7 @@ class ProfileRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.put(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/user"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "/user/password"),
       body: jsonEncode(userChangeRequest.toJson()),
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ class ProfileRepository{
       },
     );
     if(res.statusCode!=200){
-      throw "No se pudo modificar el usuario";
+      throw "No se pudo modificar la contraseña";
     }
   }
 

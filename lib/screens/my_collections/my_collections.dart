@@ -115,9 +115,8 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
   }
 
   List<Widget> getList(List<Collection> collectionList,BuildContext context){
-    print(collectionList);
     List<Widget> list=[];
-    var height=150.0;
+    var height=200.0;
     for(var i=0;i<collectionList.length;i++){
       var col=collectionList[i];
       print(col.image);

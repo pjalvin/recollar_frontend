@@ -12,9 +12,11 @@ import 'package:recollar_frontend/general_widgets/text_field_primary_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_title_cpnt.dart';
+import 'package:recollar_frontend/models/password_request.dart';
 import 'package:recollar_frontend/models/profile_request.dart';
 import 'package:recollar_frontend/models/user.dart';
 import 'package:recollar_frontend/repositories/profile_repository.dart';
+import 'package:recollar_frontend/screens/profile/widgets/change_pass_alert.dart';
 import 'package:recollar_frontend/state/profile_state.dart';
 import 'package:recollar_frontend/util/configuration.dart';
 import 'package:recollar_frontend/util/toast_lib.dart';
@@ -143,7 +145,18 @@ class _ProfileState extends State<Profile>  with AutomaticKeepAliveClientMixin{
                               border: Border(bottom: BorderSide(color:color2))
                             ),
                             child:
-                            TextParagraphCPNT(onPressed: (){}, colorText: color2, text: "Cambiar contraseña",)
+                            TextParagraphCPNT(onPressed: ()async{
+                              PasswordRequest? newPassword=await showDialog(context: context,
+                                  builder: (context){
+                                  return ChangePassAlert();
+                              });
+
+
+                              FocusScope.of(context).unfocus();
+                              if(newPassword!=null){
+                                context.read<ProfileBloc>().add(PasswordChange(newPassword));
+                              }
+                            }, colorText: color2, text: "Cambiar contraseña",)
 
                         ),
                       ],

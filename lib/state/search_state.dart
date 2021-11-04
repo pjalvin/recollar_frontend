@@ -14,14 +14,14 @@ class SearchInitial extends SearchState{
 }
 class SearchPredict extends SearchState{
   final List<String> wordList;
-  SearchPredict(this.wordList) : super([],null);
+  const SearchPredict(this.wordList,List<Object> objects) : super(objects,null);
 }
 class SearchPredictLoading extends SearchState{
-  SearchPredictLoading() : super([],null);
+  const SearchPredictLoading(List<Object> objects) : super(objects,null);
 
 }
 class SearchLoading extends SearchState{
-  SearchLoading() : super([],null);
+  const SearchLoading(List<Object> objects) : super(objects,null);
 
 }
 class SearchOk extends SearchState{

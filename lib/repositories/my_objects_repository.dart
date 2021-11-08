@@ -25,7 +25,7 @@ class MyObjectsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.post(
-        Uri.http(dotenv.env['API_URL'] ?? "", "/object"),
+        Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token"
@@ -54,7 +54,7 @@ class MyObjectsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.put(
-        Uri.http(dotenv.env['API_URL'] ?? "", "/object"),
+        Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token"
@@ -80,7 +80,7 @@ class MyObjectsRepository{
       throw "No existe token Almacenado";
     }
     var res = await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object",{"id_collection":idCollection.toString()}),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object",{"id_collection":idCollection.toString()}),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -107,7 +107,7 @@ class MyObjectsRepository{
       throw "No existe token Almacenado";
     }
     var res = await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/$idObject",),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/$idObject",),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -129,7 +129,7 @@ class MyObjectsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.delete(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/$idObject"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/$idObject"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -147,7 +147,7 @@ class MyObjectsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.patch(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/change-status",{"idObject":idObject.toString(),"objectStatus":statusObject.toString()}),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/change-status",{"idObject":idObject.toString(),"objectStatus":statusObject.toString()}),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -161,7 +161,7 @@ class MyObjectsRepository{
     print("iamgen"+imageFile.toString());
 
 
-    var uri = Uri.http(dotenv.env['API_URL'] ?? "", "/object/image",{"idObject":idObject.toString()});
+    var uri = Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/image",{"idObject":idObject.toString()});
 
 
     SharedPreferences prefs=await SharedPreferences.getInstance();
@@ -186,7 +186,7 @@ class MyObjectsRepository{
   uploadImages(XFile imageFile,idObject)async{
 
 
-    var uri = Uri.http(dotenv.env['API_URL'] ?? "", "/object/image",{"idObject":idObject.toString()});
+    var uri = Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/image",{"idObject":idObject.toString()});
 
 
     SharedPreferences prefs=await SharedPreferences.getInstance();

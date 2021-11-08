@@ -93,7 +93,7 @@ class _ArVisorState extends State<ArVisor> {
     await arCoreController.addArCoreNodeWithAnchor(node);
   }
   Future _addImage(ArCoreHitTestResult hit) async {
-    var res=await get(Uri.http(dotenv.env["API_URL"]??"", "/image/${widget.image}"),
+    var res=await get(Uri.http(dotenv.env["API_URL"]??"", "${dotenv.env['API_URL_COMP'] ?? ""}/image/${widget.image}"),
     headers: {"Authorization":"Bearer "+widget.token});
     final bytes = res.bodyBytes;
     print("bytes :${res.body}");

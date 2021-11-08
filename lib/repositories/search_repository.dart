@@ -34,7 +34,7 @@ class SearchRepository{
       throw "No existe token Almacenado";
     }
     var res = await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/public",key!=null&&key.isNotEmpty?{"text":key}:{}),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/public",key!=null&&key.isNotEmpty?{"text":key}:{}),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -67,7 +67,7 @@ class SearchRepository{
 
     print(idObject);
     var res = await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/object/$idObject",{"pub":"true"}),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/object/$idObject",{"pub":"true"}),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"

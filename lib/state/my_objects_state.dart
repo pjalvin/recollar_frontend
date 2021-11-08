@@ -23,11 +23,11 @@ class MyObjectsOk extends MyObjectsState{
 }
 class MyObjectsLoading extends MyObjectsState{
 
-  MyObjectsLoading(): super([],null,null);
+  MyObjectsLoading(List<ObjectSimple> objects): super([],null,null);
 }
 class MyObjectsSingleOk extends MyObjectsState{
 
-  MyObjectsSingleOk(Object object): super([],object,null);
+  MyObjectsSingleOk(Object object,List<ObjectSimple> objects): super(objects,object,null);
 
 }
 class MyObjectsAddOk extends MyObjectsState{
@@ -37,11 +37,11 @@ class MyObjectsAddOk extends MyObjectsState{
 }
 class MyObjectsFormLoading extends MyObjectsState{
 
-  MyObjectsFormLoading(): super([],null,null);
+  MyObjectsFormLoading(List<ObjectSimple> objects): super(objects,null,null);
 }
 class MyObjectsGetObjectOk extends MyObjectsState{
 
-  MyObjectsGetObjectOk(Object ? object): super([],object,null);
+  MyObjectsGetObjectOk(Object ? object,List<ObjectSimple> objects): super(objects,object,null);
 }
 class MyObjectsForm extends MyObjectsState{
   MyObjectsForm(Object ? object): super([],object,null);

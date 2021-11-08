@@ -18,7 +18,6 @@ class DialogCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: ()async{
-        context.read<MyObjectsBloc>().add(MyObjectsInit());
         return true;
       },
       child: Dialog(
@@ -161,7 +160,7 @@ class DialogCard extends StatelessWidget{
                     color: colorWhite,
                   ),
                   child: Image(
-                    image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"}),
+                    image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"${dotenv.env['API_URL_COMP'] ?? ""}/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"}),
                     fit: state.object!.ar?BoxFit.contain:BoxFit.cover,
 
                   ),

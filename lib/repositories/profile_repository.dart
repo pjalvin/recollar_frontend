@@ -15,7 +15,7 @@ class ProfileRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/user"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/user"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -36,7 +36,7 @@ class ProfileRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.put(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/user"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/user"),
       body: jsonEncode(profileRequest.toJson()),
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ class ProfileRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.put(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/user/password"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/user/password"),
       body: jsonEncode(userChangeRequest.toJson()),
       headers: {
         "Content-Type": "application/json",

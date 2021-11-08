@@ -49,17 +49,11 @@ class _CollectionFormState extends State<CollectionForm> {
              }
           firstBuild=true;
         }
-        if(state is MyCollectionsOk){
-          WidgetsBinding.instance!.addPostFrameCallback((_){
-          Navigator.pop(context);
-          });
-        }
         
         return WillPopScope(
           onWillPop: ()async{
-
             context.read<MyCollectionsBloc>().add(MyCollectionsInit());
-            return false;
+            return true;
           },
           child: Scaffold(
             appBar: AppBar(
@@ -101,7 +95,7 @@ class _CollectionFormState extends State<CollectionForm> {
 
                                     child:
                                     _imagePublication!=null?Image(image:FileImage(File(_imagePublication!.path)),fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):
-                                        widget.edit&&state.collection!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.collection!.image,headers: {"Authorization":"Bearer ${state.collection!.token}"},fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
+                                        widget.edit&&state.collection!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"${dotenv.env['API_URL_COMP'] ?? ""}/image/"+state.collection!.image,headers: {"Authorization":"Bearer ${state.collection!.token}"},fit:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
                                     borderRadius:  BorderRadius.circular(10),
 
                                   ),
@@ -170,10 +164,12 @@ class _CollectionFormState extends State<CollectionForm> {
     CollectionRequest collectionRequest= CollectionRequest(1, nameController.text, comboBoxItem.id??1);
 
     context.read<MyCollectionsBloc>().add(MyCollectionsAdd(collectionRequest,_imagePublication??XFile("")));
+    Navigator.pop(context);
   }
   _edit(BuildContext context,Collection collection){
     CollectionRequest collectionRequest= CollectionRequest(collection.idCollection, nameController.text, comboBoxItem.id??1);
 
     context.read<MyCollectionsBloc>().add(MyCollectionsUpdate(collectionRequest,_imagePublication));
+    Navigator.pop(context);
   }
 }

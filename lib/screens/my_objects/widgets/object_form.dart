@@ -128,7 +128,7 @@ class _ObjectFormState extends State<ObjectForm>{
 
                                 child:_imageAR!=null?Image.memory(_imageAR!,fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7):
                                 _imagePublication!=null?Image(image:FileImage(File(_imagePublication!.path)),fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):
-                                widget.edit&&state.object!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"},fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
+                                widget.edit&&state.object!=null?Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"${dotenv.env['API_URL_COMP'] ?? ""}/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"},fit:_ar?BoxFit.contain:BoxFit.cover,width: sizeP.width*0.7,height:  sizeP.width*0.7,):NoImage(size:Size(sizeP.width*0.7,sizeP.width*0.7)),
                                 borderRadius:  BorderRadius.circular(10),
 
                               ),

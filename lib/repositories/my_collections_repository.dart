@@ -24,7 +24,7 @@ class MyCollectionsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/collection"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/collection"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -55,7 +55,7 @@ class MyCollectionsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.post(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/collection"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/collection"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -79,7 +79,7 @@ class MyCollectionsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.put(
-        Uri.http(dotenv.env['API_URL'] ?? "", "/collection"),
+        Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/collection"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token"
@@ -103,7 +103,7 @@ class MyCollectionsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.delete(
-        Uri.http(dotenv.env['API_URL'] ?? "", "/collection/$idCollection"),
+        Uri.http(dotenv.env['API_URL'] ?? "","${dotenv.env['API_URL_COMP'] ?? ""}/collection/$idCollection"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token"
@@ -121,7 +121,7 @@ class MyCollectionsRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/category"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/category"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
@@ -143,7 +143,7 @@ class MyCollectionsRepository{
   uploadImages(XFile imageFile,idCollection)async{
 
 
-      var uri = Uri.http(dotenv.env['API_URL'] ?? "", "/collection/image",{"idCollection":idCollection.toString()});
+      var uri = Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/collection/image",{"idCollection":idCollection.toString()});
 
 
       SharedPreferences prefs=await SharedPreferences.getInstance();

@@ -6,6 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recollar_frontend/bloc/my_collections_bloc.dart';
 import 'package:recollar_frontend/events/my_collections_event.dart';
 import 'package:recollar_frontend/general_widgets/button_icon_cpnt.dart';
+import 'package:recollar_frontend/general_widgets/loading_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/simple_card_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_paragraph_cpnt.dart';
 import 'package:recollar_frontend/general_widgets/text_subtitle_cpnt.dart';
@@ -106,6 +107,7 @@ class _MyCollectionsState extends State<MyCollections>  with AutomaticKeepAliveC
                     ],
                   ),
                 ),
+                state is MyCollectionsLoading?LoadingCPNT(size: sizeP):Container()
               ],
             )
           );

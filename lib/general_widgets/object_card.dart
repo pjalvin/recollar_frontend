@@ -30,7 +30,7 @@ class ObjectCard extends StatelessWidget {
             color: colorWhite,
             borderRadius: BorderRadius.circular( size.width*0.05),
             image:DecorationImage(
-                image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"}),
+                image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"${dotenv.env['API_URL_COMP'] ?? ""}/image/"+image,headers: {"Authorization":"Bearer $token"}),
                 fit: ar?BoxFit.contain:BoxFit.cover,
             ),
           ),

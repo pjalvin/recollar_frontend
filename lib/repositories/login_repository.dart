@@ -10,7 +10,7 @@ class LoginRepository{
     userAuth.verifyData();
     print(userAuth.toJson());
       var res=await http.post(
-          Uri.http(dotenv.env['API_URL'] ?? "", "/login"),
+          Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/login"),
           body: userAuth.toJson(),
 
           headers: {
@@ -34,7 +34,7 @@ class LoginRepository{
   Future signup(User user) async{
     user.verifyData();
     var res=await http.post(
-        Uri.http(dotenv.env['API_URL'] ?? "", "/user/signup"),
+        Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/user/signup"),
         body: jsonEncode(user.toJson()),
         headers: {
           "Content-Type": "application/json",
@@ -55,13 +55,14 @@ class LoginRepository{
       throw "No existe token Almacenado";
     }
     var res=await http.get(
-      Uri.http(dotenv.env['API_URL'] ?? "", "/user"),
+      Uri.http(dotenv.env['API_URL'] ?? "", "${dotenv.env['API_URL_COMP'] ?? ""}/user"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
       },
     );
     if(res.statusCode!=200){
+      print(res.body);
       throw "No se pudo obtener el perfil del usuario";
     }
     else{

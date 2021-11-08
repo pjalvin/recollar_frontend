@@ -69,7 +69,7 @@ class SimpleCardCPNT extends StatelessWidget {
                       height: size.height*0.6-2,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
-                        child: Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+image,headers: {"Authorization":"Bearer $token"},fit: box)
+                        child: Image.network("http://"+(dotenv.env['API_URL'] ?? "")+"${dotenv.env['API_URL_COMP'] ?? ""}/image/"+image,headers: {"Authorization":"Bearer $token"},fit: box)
                         ,
                       )   ),
                   ),

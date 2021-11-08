@@ -22,7 +22,6 @@ class AlertObject extends StatelessWidget{
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: ()async{
-        context.read<SearchBloc>().add(SearchInit());
         return true;
       },
       child: Dialog(
@@ -118,7 +117,7 @@ class AlertObject extends StatelessWidget{
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Image(
-                        image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"}),
+                        image: NetworkImage("http://"+(dotenv.env['API_URL'] ?? "")+"${dotenv.env['API_URL_COMP'] ?? ""}/image/"+state.object!.image,headers: {"Authorization":"Bearer ${state.object!.token}"}),
                         fit: state.object!.ar?BoxFit.contain:BoxFit.cover,
 
                       ),
